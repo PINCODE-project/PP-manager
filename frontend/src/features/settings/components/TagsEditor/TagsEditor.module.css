@@ -1,0 +1,21 @@
+.title {
+
+}
+
+.tagsEditor {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.tagsEditor__addTagForm {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.tagsEditor__tagsListElement {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}

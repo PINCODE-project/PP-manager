@@ -1,0 +1,22 @@
+.tableContainer {
+    height: calc(100% - 92px);
+}
+
+.table {
+    height: 100%;
+}
+
+.nameItem {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.link:hover {
+    color: var(--primary-color);
+    cursor: pointer;
+}
+
+.students {
+    flex-wrap: wrap;
+}

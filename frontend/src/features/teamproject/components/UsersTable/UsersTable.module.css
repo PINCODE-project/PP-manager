@@ -1,0 +1,14 @@
+.table {
+    overflow: scroll;
+}
+
+.nameItem {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.link:hover {
+    color: var(--primary-color);
+    cursor: pointer;
+}

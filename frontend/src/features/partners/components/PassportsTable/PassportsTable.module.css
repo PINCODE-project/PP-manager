@@ -1,0 +1,50 @@
+.tableContainer {
+    height: calc(100% - 92px);
+}
+
+.darkRow {
+    background-color: rgba(230, 244, 255, 0.53);
+}
+
+.table {
+    height: 100%;
+    width: 100%;
+}
+
+
+.nameItem {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.link:hover {
+    color: var(--primary-color);
+    cursor: pointer;
+}
+
+.students {
+    flex-wrap: wrap;
+}
+
+.requestName__warning {
+    color: #737373;
+    font-size: 11px;
+}
+
+
+.tags__list {
+    display: flex;
+    gap: 5px;
+    flex-wrap: wrap;
+}
+
+.tags__editButton {
+    position: absolute;
+    top: 2px;
+    right: 2px;
+}
+
+.clickable {
+    color: var(--text-color) !important;
+}

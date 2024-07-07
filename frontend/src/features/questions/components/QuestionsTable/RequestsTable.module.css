@@ -1,0 +1,27 @@
+.tableContainer {
+    height: calc(100% - 92px);
+}
+
+.table {
+    height: 100%;
+    width: 100%;
+}
+
+.darkRow {
+    background-color: rgba(230, 244, 255, 0.53);
+}
+
+.nameItem {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.link:hover {
+    color: var(--primary-color);
+    cursor: pointer;
+}
+
+.students {
+    flex-wrap: wrap;
+}

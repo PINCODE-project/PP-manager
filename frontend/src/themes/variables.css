@@ -1,0 +1,42 @@
+:root{
+    /* Colors */
+    --color-gray-100: #4F4F53;
+    --color-gray-200: #313134;
+    --color-gray-300: #242428;
+    --color-gray-400: #202023;
+    --color-gray-500: #030303;
+
+    --color-white-100: #737373;
+    --color-white-200: #BBBBBB;
+    --color-white-300: #C2C2C2;
+    --color-white-400: #BCBBBB;
+    --color-white-500: #FFFFFF;
+
+
+    --service-backround-color: rgba(240, 247, 255, 1);
+    --on-surface-color: rgba(255, 255, 255, 1);
+    --on-surface-opacity-color: rgba(255, 255, 255, 0.85);
+    --dark-on-surface-color: rgba(228, 228, 231, 1);
+    --primary-color: rgb(51, 142, 247, 1);
+    --disabled-primary-color: rgb(51, 142, 247, 0.6);
+    --accent-color: rgba(174, 126, 222, 1);
+    --light-primary-color: rgba(82, 133, 242, 0.2);
+    --success-color: rgba(23, 201, 100, 1);
+    --danger-color: rgb(243, 18, 96, 1);
+    --light-danger-color: rgba(242, 82, 82, 0.2);
+    --text-color: rgba(63, 63, 70, 1);
+    --secondary-text-color: rgba(82, 82, 91, 1);
+    --thirdly-text-color: rgba(161, 161, 170, 1);
+    --disabled-text-color: rgba(212, 212, 216, 1);
+    --disabled-button-color: rgb(113, 113, 122, 1);
+    --modal-blur: rgba(0, 0, 0, 0.65);
+
+    /* Border Radius */
+    --border-radius-s: 10px;
+    --border-radius-m: 15px;
+    --border-radius-l: 20px;
+    --border-radius-xl: 30px;
+
+    /* Fonts */
+    --main-font: SFPro, serif;
+}

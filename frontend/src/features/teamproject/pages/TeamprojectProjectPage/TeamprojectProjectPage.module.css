@@ -1,0 +1,28 @@
+.page {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.title {
+    display: flex;
+    gap: 10px;
+    align-items: start;
+    margin-bottom: 0 !important;
+}
+
+.title__icon {
+    width: 32px;
+    height: 32px;
+}
+
+.tags {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.lists ol,
+.lists ul{
+    list-style: none;
+}

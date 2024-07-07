@@ -1,0 +1,1 @@
+export {PartnersPassportsPage} from "./PartnersPassportsPage"

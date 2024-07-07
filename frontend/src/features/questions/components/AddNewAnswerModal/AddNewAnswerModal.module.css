@@ -1,0 +1,39 @@
+.modal {
+    width: calc(100vw - 200px) !important;
+}
+
+
+.loading {
+    text-align: center;
+    font-weight: 600;
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+    align-items: center;
+}
+
+.buttons {
+    width: 100%;
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+}
+
+
+.code {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    width: calc(100vw - 200px - 50px) !important;
+
+}
+
+.codeEdit {
+    width: calc((100vw - 200px - 50px) / 2) !important;
+    overflow: scroll;
+}
+
+.codePreview {
+    width: calc((100vw - 200px - 200px) / 2) !important;
+    white-space: pre-wrap;
+}

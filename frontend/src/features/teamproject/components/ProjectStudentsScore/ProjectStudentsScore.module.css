@@ -1,0 +1,12 @@
+.project {
+    border-radius: 20px;
+}
+
+.title {
+    font-size: 18px;
+    font-weight: 600;
+}
+
+.table {
+    height: 100%;
+}

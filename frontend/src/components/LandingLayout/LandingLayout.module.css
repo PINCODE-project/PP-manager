@@ -1,0 +1,8 @@
+.landingLayout {
+    background-color: var(--service-backround-color);
+}
+
+.landingLayout__app {
+    width: 100vw;
+    height: 100vh;
+}

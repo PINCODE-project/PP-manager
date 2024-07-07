@@ -1,0 +1,33 @@
+.page {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    height: 100%;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+}
+
+.filters {
+    display: flex;
+    gap: 20px;
+}
+
+.buttons {
+    display: flex;
+    gap: 20px;
+}
+
+.cards {
+    display: flex;
+    flex-direction: row;
+    gap: 20px
+}
+
+.chartContainer {
+    display: flex;
+    flex-direction: column;
+    gap: 20px
+}

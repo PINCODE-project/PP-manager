@@ -1,0 +1,1 @@
+export {PartnersRequestsPage} from "./SettingsPage"

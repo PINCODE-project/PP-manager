@@ -1,0 +1,16 @@
+version: '3.8'
+
+services:
+  pp_manager_server:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    restart: always
+    ports:
+      - "5008:5000"
+    networks:
+      - pp_manager_network
+
+networks:
+  pp_manager_network:
+    driver: bridge

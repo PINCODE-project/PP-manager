@@ -1,0 +1,14 @@
+.tags__container {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+.tags__list {
+    display: flex;
+    gap: 5px;
+    flex-wrap: wrap;
+}
+
+.tags__editButton {
+    align-self: end;
+}

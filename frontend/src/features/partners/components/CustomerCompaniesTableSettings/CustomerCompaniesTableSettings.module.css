@@ -1,0 +1,23 @@
+.buttons {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.content {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.columnSwitchs {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.columnSwitch {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}

@@ -1,0 +1,25 @@
+.modal {
+    display: flex;
+    flex-direction: column;
+}
+
+.select {
+    width: 120px !important;
+    margin: 0 !important;
+}
+
+.loading {
+    text-align: center;
+    font-weight: 600;
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+    align-items: center;
+}
+
+.buttons {
+    width: 100%;
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+}

@@ -1,0 +1,15 @@
+.menu {
+    width: 170px;
+    height: 100vh;
+    position: fixed;
+    top: 0;
+    left: 0;
+    overflow: auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.menu__buttons {
+    width: 170px;
+}

@@ -1,0 +1,1 @@
+export {PartnersCustomerCompaniesPage} from "./PartnersCustomerCompaniesPage"
