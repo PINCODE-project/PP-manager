@@ -23,7 +23,7 @@ jobs:
         ssh -o StrictHostKeyChecking=no ${{ secrets.SSH_USERNAME }}@${{ secrets.SSH_HOST }} '
           cd PP-manager &&
           git pull &&
-          if git diff --quiet HEAD^ HEAD -- backend; then
+          if git diff --quiet HEAD^ HEAD -- backend && git diff --quiet HEAD^ HEAD -- docker-compose.yml; then
             echo "No changes in the backend directory. Skipping build."
           else
             sudo docker-compose up -d --build
