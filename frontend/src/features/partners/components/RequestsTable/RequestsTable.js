@@ -10,6 +10,7 @@ import {getAllTags} from "../../../../store/slices/tagsSlice";
 import parse from "html-react-parser";
 import RequestStudentsCountCellEditor from "../RequestStudentsCountCellEditor/RequestStudentsCountCellEditor";
 import RequestTrackCellEditor from "../RequestTrackCellEditor/RequestTrackCellEditor";
+import {normalizeCountForm} from "../../../../core/utils/normalizeCountForm";
 
 const {Column, ColumnGroup} = Table;
 const {Paragraph} = Typography;
@@ -99,7 +100,7 @@ export default function RequestsTable(props) {
             <Table
                 className={styles.table}
                 bordered={true}
-                title={() => `${tableCount} элементов`}
+                title={() => `${tableCount} ${normalizeCountForm(tableCount, ["элемент", 'элемента', 'элементов'])}`}
                 dataSource={props.isEdit ? props.editRequests : props.requests}
                 size="small"
                 scroll={{

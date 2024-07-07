@@ -4,6 +4,7 @@ import {App, Button, Input, Space, Table, Tag} from "antd";
 import {useDispatch} from "react-redux";
 import styles from "./CustomerCompaniesTable.module.css"
 import {SearchOutlined} from "@ant-design/icons";
+import {normalizeCountForm} from "../../../../core/utils/normalizeCountForm";
 
 const {Column, ColumnGroup} = Table;
 const {TextArea} = Input;
@@ -85,7 +86,7 @@ export default function CustomerCompaniesTable(props) {
         <div className={styles.tableContainer}>
             <Table
                 className={styles.table}
-                title={() => `${tableCount} элементов`}
+                title={() => `${tableCount} ${normalizeCountForm(tableCount, ["элемент", 'элемента', 'элементов'])}`}
                 bordered={true}
                 dataSource={props.customerCompanies}
                 size="small"

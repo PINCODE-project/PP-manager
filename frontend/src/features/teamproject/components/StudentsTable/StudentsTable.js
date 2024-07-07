@@ -6,6 +6,7 @@ import styles from "./StudentsTable.module.css"
 import {SearchOutlined} from "@ant-design/icons";
 import {getAllTags} from "../../../../store/slices/tagsSlice";
 import {useTags} from "../../../../hooks/use-tags";
+import {normalizeCountForm} from "../../../../core/utils/normalizeCountForm";
 
 const {Column, ColumnGroup} = Table;
 const {TextArea} = Input;
@@ -135,7 +136,7 @@ export default function StudentsTable(props) {
         <div className={styles.tableContainer}>
             <Table
                 className={styles.table}
-                title={() => `${tableCount} элементов`}
+                title={() => `${tableCount} ${normalizeCountForm(tableCount, ["элемент", 'элемента', 'элементов'])}`}
                 bordered={true}
                 dataSource={props.students}
                 size="small"

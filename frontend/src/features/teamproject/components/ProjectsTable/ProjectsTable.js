@@ -4,6 +4,7 @@ import {App, Avatar, Button, Dropdown, Input, Space, Table, Tag, Tooltip} from "
 import {useDispatch} from "react-redux";
 import styles from "./ProjectsTable.module.css"
 import {LinkOutlined, SearchOutlined} from "@ant-design/icons";
+import {normalizeCountForm} from "../../../../core/utils/normalizeCountForm";
 
 const {Column, ColumnGroup} = Table;
 
@@ -118,7 +119,7 @@ export default function ProjectsTable(props) {
                 bordered={true}
                 dataSource={props.projects}
                 size="small"
-                title={() => `${tableCount} элементов`}
+                title={() => `${tableCount} ${normalizeCountForm(tableCount, ["элемент", 'элемента', 'элементов'])}`}
                 scroll={{
                     y: "100%",
                     x: false

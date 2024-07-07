@@ -4,6 +4,7 @@ import {App, Button, Input, Space, Table} from "antd";
 import {useDispatch} from "react-redux";
 import styles from "./CustomerUsersTable.module.css"
 import {SearchOutlined} from "@ant-design/icons";
+import {normalizeCountForm} from "../../../../core/utils/normalizeCountForm";
 
 const {Column, ColumnGroup} = Table;
 const {TextArea} = Input;
@@ -87,7 +88,7 @@ export default function CustomerUsersTable(props) {
                 className={styles.table}
                 bordered={true}
                 dataSource={props.customerUsers}
-                title={() => `${tableCount} элементов`}
+                title={() => `${tableCount} ${normalizeCountForm(tableCount, ["элемент", 'элемента', 'элементов'])}`}
                 size="small"
                 scroll={{
                     y: "100%",

@@ -9,6 +9,7 @@ import {useTags} from "../../../../hooks/use-tags";
 import PassportTagsCellEditor from "../PassportTagsCellEditor/PassportTagsCellEditor";
 import parse from 'html-react-parser';
 import PassportIsVisibleEditor from "../PassportIsVisibleEditor/PassportIsVisibleEditor";
+import {normalizeCountForm} from "../../../../core/utils/normalizeCountForm";
 
 const {Column, ColumnGroup} = Table;
 const {TextArea} = Input;
@@ -121,7 +122,7 @@ export default function PassportsTable(props) {
             <Table
                 className={styles.table}
                 bordered={true}
-                title={() => `${tableCount} элементов`}
+                title={() => `${tableCount} ${normalizeCountForm(tableCount, ["элемент", 'элемента', 'элементов'])}`}
                 dataSource={props.passports}
                 size="small"
                 scroll={{
