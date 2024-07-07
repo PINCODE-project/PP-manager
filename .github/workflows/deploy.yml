@@ -1,0 +1,31 @@
+name: CI/CD Pipeline for PP-manager
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Set up SSH
+      uses: webfactory/ssh-agent@v0.5.3
+      with:
+        ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+
+    - name: Deploy to Server
+      run: |
+        ssh -o StrictHostKeyChecking=no ${{ secrets.SSH_USERNAME }}@${{ secrets.SSH_HOST }} '
+          cd PP-manager &&
+          git pull &&
+          if git diff --quiet HEAD^ HEAD -- backend && git diff --quiet HEAD^ HEAD -- docker-compose.yml; then
+            echo "No changes in the backend directory. Skipping build."
+          else
+            sudo docker-compose up -d --build
+          fi
+        '
