@@ -1,4 +1,4 @@
-name: CI/CD Pipeline for swagger-provider
+name: CI/CD Pipeline for PP-manager
 
 on:
   push:
