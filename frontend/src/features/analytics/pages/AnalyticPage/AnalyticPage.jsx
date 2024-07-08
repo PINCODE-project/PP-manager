@@ -137,7 +137,7 @@ export function AnalyticPage() {
                 <Card bordered={false}>
                     <Statistic
                         title="Количество студентов"
-                        value={analytic.mainAnalytic.customer_users_count}
+                        value={analytic.mainAnalytic.students_count}
                     />
                 </Card>
             </div>
