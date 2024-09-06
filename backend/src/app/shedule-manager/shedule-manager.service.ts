@@ -15,8 +15,8 @@ export class SheduleManagerService {
     async handleCron() {
         if(this.configService.get("NODE_ENV") === "PRODUCTION") {
             const tokens = await this.partnerService.getTokens();
-            await this.partnerService.parseRequests({...tokens, period_id: 8});
-            await this.partnerService.parsePassports({...tokens, period_id: 8});
+            await this.partnerService.parseRequests({...tokens, period_id: 9});
+            await this.partnerService.parsePassports({...tokens, period_id: 9});
         }
     }
 }
