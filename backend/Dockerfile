@@ -25,22 +25,19 @@ RUN apt-get update && apt-get install -y \
     libgbm1 \
     xdg-utils
 
-# Устанавливаем Google Chrome
-RUN wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb && \
-    dpkg -i google-chrome-stable_current_amd64.deb || true && \
+# Устанавливаем Google Chrome 114
+RUN wget https://dl.google.com/linux/chrome/deb/pool/main/g/google-chrome-stable/google-chrome-stable_114.0.5735.90-1_amd64.deb && \
+    dpkg -i google-chrome-stable_114.0.5735.90-1_amd64.deb || true && \
     apt-get install -y -f && \
-    rm google-chrome-stable_current_amd64.deb
+    rm google-chrome-stable_114.0.5735.90-1_amd64.deb
 
-# Получаем точную версию Chrome и устанавливаем соответствующую версию ChromeDriver
-RUN CHROME_VERSION=$(google-chrome --version | grep -oP '\d+\.\d+\.\d+') && \
-    CHROME_MAJOR_VERSION=$(echo $CHROME_VERSION | cut -d'.' -f1) && \
-    wget -N https://chromedriver.storage.googleapis.com/LATEST_RELEASE_$CHROME_MAJOR_VERSION && \
-    LATEST_CHROMEDRIVER=$(cat LATEST_RELEASE_$CHROME_MAJOR_VERSION) && \
-    wget https://chromedriver.storage.googleapis.com/$LATEST_CHROMEDRIVER/chromedriver_linux64.zip && \
+# Устанавливаем ChromeDriver 114
+RUN wget https://chromedriver.storage.googleapis.com/114.0.5735.90/chromedriver_linux64.zip && \
     unzip chromedriver_linux64.zip && \
     rm chromedriver_linux64.zip && \
     mv chromedriver /usr/local/bin/ && \
     chmod +x /usr/local/bin/chromedriver
+
 
 WORKDIR /usr/src/app
 
