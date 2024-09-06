@@ -32,9 +32,7 @@ RUN wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.d
     rm google-chrome-stable_current_amd64.deb
     
 # Получаем последнюю стабильную версию ChromeDriver
-RUN wget -O /tmp/LATEST_RELEASE https://chromedriver.storage.googleapis.com/LATEST_RELEASE && \
-    LATEST_CHROMEDRIVER=$(cat /tmp/LATEST_RELEASE) && \
-    wget https://chromedriver.storage.googleapis.com/$LATEST_CHROMEDRIVER/chromedriver_linux64.zip && \
+RUN wget https://storage.googleapis.com/chrome-for-testing-public/128.0.6613.119/linux64/chromedriver-linux64.zip && \
     unzip chromedriver_linux64.zip && \
     rm chromedriver_linux64.zip && \
     mv chromedriver /usr/local/bin/ && \
