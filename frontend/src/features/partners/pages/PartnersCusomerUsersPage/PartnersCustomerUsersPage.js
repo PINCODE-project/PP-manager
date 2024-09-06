@@ -11,6 +11,10 @@ import CustomerUsersTableSettings from "../../components/CustomerUsersTableSetti
 import CustomerUsersTable from "../../components/CustomerUsersTable/CustomerUsersTable";
 import {removeStudent} from "../../../../store/slices/studentSlice";
 import {unauthorizedHandler} from "../../../../core/utils/unauthorizedHandler";
+import { usePeriods } from "../../../../hooks/use-periods";
+import { getAllPassports } from "../../../../store/slices/passportsSlice";
+import { removePassport } from "../../../../store/slices/passportSlice";
+import { getAllPeriods } from "../../../../store/slices/periodsSlice";
 
 export const initialCustomerUsersTableColumns = [
     {
@@ -52,8 +56,10 @@ export function PartnersCustomerUsersPage() {
         initialCustomerUsersTableColumns
     )
 
-    const [year, setYear] = useState(2023)
+    const [year, setYear] = useState(2024)
     const [term, setTerm] = useState(1)
+
+    const periods = usePeriods()
 
     const handleChangeYear = (value) => {
         setYear(value)
@@ -66,11 +72,15 @@ export function PartnersCustomerUsersPage() {
     const customerUsers = useCustomerUsers()
 
     useEffect(() => {
-        dispatch(getAllCustomerUsers({period_id: 8}))
-            .catch((error) => unauthorizedHandler(error, dispatch, message))
-    }, [year, term]);
+        if (!periods.isLoading) {
+            dispatch(getAllCustomerUsers({period_id: periods.periods.find(period => period.year === year && period.term === term).id}))
+                .catch((error) => unauthorizedHandler(error, dispatch, message))
+        }
+    }, [periods, year, term]);
 
     useEffect(() => {
+        dispatch(getAllPeriods())
+            .catch((error) => unauthorizedHandler(error, dispatch, message))
         dispatch(removeProject())
         dispatch(removeStudent())
     }, []);
@@ -95,20 +105,17 @@ export function PartnersCustomerUsersPage() {
             <div className={styles.header}>
                 <div className={styles.filters}>
                     <Select
-                        defaultValue={2023}
+                        defaultValue={2024}
                         onChange={handleChangeYear}
-                        options={[
-                            {value: 2023, label: '2023/2024'},
-                            {value: 2022, label: '2022/2023'},
-                            {value: 2021, label: '2021/2022'},
-                            {value: 2020, label: '2020/2021'},
-                            {value: 2019, label: '2019/2020'},
-                            {value: 2018, label: '2018/2019'},
-                        ]}
+                        options={
+                            [...new Set(periods.periods.map(period => period.year))].map(year => ({
+                                value: year, label: `${year}/${year + 1}`
+                            }))
+                        }
                     />
 
                     <Select
-                        defaultValue={2}
+                        defaultValue={1}
                         onChange={handleChangeTerm}
                         options={[
                             {value: 1, label: 'Осенний'},

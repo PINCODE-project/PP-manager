@@ -1,9 +1,9 @@
 import React from 'react';
-import {LandingPage} from "./pages/LandingPage/LandingPage";
+import { Navigate } from "react-router-dom";
 
 export const landingRoutes = [
     {
         path: '/',
-        element: <LandingPage/>,
+        element: <Navigate to={ "/teamproject/projects" } replace />,
     },
 ]

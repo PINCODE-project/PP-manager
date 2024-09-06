@@ -60,8 +60,8 @@ export function TeamprojectProjectsPage() {
     const [isSettingsTableOpen, setIsSettingsTableOpen] = useState(false);
     const [isParseModalOpen, setIsParseModalOpen] = useState(false);
 
-    const [year, setYear] = useState(2023)
-    const [term, setTerm] = useState(2)
+    const [year, setYear] = useState(2024)
+    const [term, setTerm] = useState(1)
 
     const [projectsTable, setProjectsTable] = useState([])
     const [projectsTableColumns, setProjectsTableColumns] = useState(
@@ -118,7 +118,7 @@ export function TeamprojectProjectsPage() {
             <div className={styles.header}>
                 <div className={styles.filters}>
                     <Select
-                        defaultValue={2023}
+                        defaultValue={2024}
                         onChange={handleChangeYear}
                         options={
                             [...new Set(periods.periods.map(period => period.year))].map(year => ({
@@ -128,7 +128,7 @@ export function TeamprojectProjectsPage() {
                     />
 
                     <Select
-                        defaultValue={2}
+                        defaultValue={1}
                         onChange={handleChangeTerm}
                         options={[
                             {value: 1, label: 'Осенний'},

@@ -89,8 +89,8 @@ export function PartnersRequestsPage() {
         initialRequestsTableColumns
     )
 
-    const [year, setYear] = useState(2023)
-    const [term, setTerm] = useState(2)
+    const [year, setYear] = useState(2024)
+    const [term, setTerm] = useState(1)
 
     const handleChangeYear = (value) => {
         setYear(value)
@@ -202,7 +202,7 @@ export function PartnersRequestsPage() {
             <div className={styles.header}>
                 <div className={styles.filters}>
                     <Select
-                        defaultValue={2023}
+                        defaultValue={2024}
                         onChange={handleChangeYear}
                         options={
                             [...new Set(periods.periods.map(period => period.year))].map(year => ({
@@ -212,7 +212,7 @@ export function PartnersRequestsPage() {
                     />
 
                     <Select
-                        defaultValue={2}
+                        defaultValue={1}
                         onChange={handleChangeTerm}
                         options={[
                             {value: 1, label: 'Осенний'},
