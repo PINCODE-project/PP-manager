@@ -97,6 +97,12 @@ export class PartnerService {
     }
 
     async parseRequests(parseRequestsDto: ParseRequestsDto) {
+        if (this.sseService.isEventActive(SSEEnum.PARSE_PARTNERS)) {
+            throw new ForbiddenException(
+                'Only one parsing process can be run!',
+            );
+        }
+
         let myHeaders = new Headers();
         myHeaders.append("Cookie", "session-cookie=" + parseRequestsDto.session_cookie + ";key=" + parseRequestsDto.token);
 
@@ -108,14 +114,17 @@ export class PartnerService {
 
         let period = await this.periodService.findOne(parseRequestsDto.period_id)
 
-        let pagesCount = await this.getRequestsPagesCount({
+        let count = await this.getRequestsPagesCount({
             ...parseRequestsDto,
             semester: period.year + "-" + (period.term - 1)
         });
-        console.log("Pages count: ", pagesCount)
 
-        for (let i = 1; i < (pagesCount + 1); i++) {
-            console.log("Page: ", i)
+        this.logger.log("Pages count: ", count.pagesCount)
+        let j = 0;
+        for (let i = 1; i < (count.pagesCount + 1); i++) {
+            this.logger.log(`${i}/${count.pagesCount} pages`)
+            this.sseService.emitEvent(SSEEnum.PARSE_PARTNERS, { data: `${j}/${count.requestsCount}` });
+
             try {
                 let currentRequestsResponse = await fetch(
                     "https://partner.urfu.ru/learning/request/?mode=requests&semester=" + period.year + "-" + (period.term - 1) + "&own=me&page=" + i,
@@ -125,6 +134,9 @@ export class PartnerService {
                 let currentRequests = await currentRequestsResponse.json();
 
                 for (let request of currentRequests.results) {
+                    j += 1;
+                    this.logger.log(`${j}/${count.requestsCount} request`)
+                    this.logger.log("Parse request " + request.id + " {")
                     let currentRequest = await this.parseRequest({
                         ...parseRequestsDto,
                         id: request.id
@@ -147,12 +159,12 @@ export class PartnerService {
 
                     if (!await this.customerUserService.isCreate(currentRequest.manager.id)) {
                         // Заказчика не существует
-                        console.log("Create customer user")
+                        this.logger.log("\tCreate customer user: (id:" + currentRequest.id + ")")
                         await this.customerUserService.create(
                             CustomerUserMappers.toCreateDto(currentRequest.manager)
                         )
                     } else {
-                        console.log("Update customer user")
+                        this.logger.log("\tUpdate customer user: (id:" + currentRequest.manager.id + ")")
                         await this.customerUserService.update(
                             currentRequest.manager.id,
                             CustomerUserMappers.toUpdateDto(currentRequest.manager)
@@ -161,17 +173,18 @@ export class PartnerService {
 
                     if (!await this.requestService.isCreate(currentRequest.id)) {
                         // Заявки не существует
-                        console.log("Create request")
+                        this.logger.log("\tCreate request: (id:" + currentRequest.id + ")")
                         await this.requestService.create(
                             RequestMappers.toCreateDto(currentRequest)
                         )
                     } else {
-                        console.log("Update request")
+                        this.logger.log("\tUpdate request: (id:" + currentRequest.id + ")")
                         await this.requestService.update(
                             currentRequest.id,
                             RequestMappers.toUpdateDto(currentRequest)
                         )
                     }
+                    j += 1;
                 }
             } catch (error) {
                 throw new BadRequestException(error)
@@ -299,7 +312,10 @@ export class PartnerService {
         this.logger.log("End of parse passports")
     }
 
-    async getRequestsPagesCount(getRequestsPagesCountDto: GetRequestsPagesCountDto): Promise<number> {
+    async getRequestsPagesCount(getRequestsPagesCountDto: GetRequestsPagesCountDto): Promise<{
+        pagesCount: number,
+        requestsCount: number
+    }> {
         let myHeaders = new Headers();
         myHeaders.append("Cookie", "session-cookie=" + getRequestsPagesCountDto.session_cookie + ";key=" + getRequestsPagesCountDto.token);
 
@@ -316,7 +332,7 @@ export class PartnerService {
             )
             let pagesCountRequestJSON = await pagesCountRequest.json();
 
-            return pagesCountRequestJSON.pages.at(-1)[1] || 0;
+            return {pagesCount: pagesCountRequestJSON.pages.at(-1)[1] || 0, requestsCount: pagesCountRequestJSON.count};
         } catch (error) {
             throw new InternalServerErrorException("Get pages count error: " + error)
         }
