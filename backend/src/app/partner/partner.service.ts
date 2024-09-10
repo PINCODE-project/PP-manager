@@ -190,6 +190,7 @@ export class PartnerService {
                 throw new BadRequestException(error)
             }
         }
+        this.sseService.clearEvent(SSEEnum.PARSE_PARTNERS);
         console.log("End of parse requests")
     }
 
