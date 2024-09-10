@@ -145,12 +145,12 @@ export class PartnerService {
 
                     if (!await this.customerCompanyService.isCreate(currentRequest.partner.id)) {
                         // Компании заказчика не существует
-                        console.log("Create customer company")
+                        this.logger.log("\tCreate customer company: (id:" + currentRequest.partner.id + ")")
                         await this.customerCompanyService.create(
                             CustomerCompanyMappers.partnerToCreateAndUpdateDto(currentRequest.partner)
                         )
                     } else {
-                        console.log("Update customer company")
+                        this.logger.log("\tUpdate customer company: (id:" + currentRequest.partner.id + ")")
                         await this.customerCompanyService.update(
                             currentRequest.partner.id,
                             CustomerCompanyMappers.partnerToCreateAndUpdateDto(currentRequest.partner)
