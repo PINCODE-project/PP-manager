@@ -4,6 +4,8 @@ import {Passport} from "../../passport/entities/passport.entity";
 import {CustomerUser} from "../../customer-user/entities/customer-user.entity";
 import {Tag} from "../../tag/entities/tag.entity";
 import {ApiProperty} from "@nestjs/swagger";
+import { Project } from "../../project/entities/project.entity";
+import { RequestProgram } from "../../request-program/entities/request-program.entity";
 
 @Entity()
 export class Request {
@@ -47,6 +49,10 @@ export class Request {
 
     @OneToMany(() => Passport, (passport) => passport.request, {nullable: true})
     passports: Passport[];
+
+    @OneToMany(() => RequestProgram, (requestProgram) => requestProgram.id, {nullable: true})
+    @JoinColumn({name: 'request_program'})
+    programs: RequestProgram[]
 
     @ManyToOne(() => CustomerUser, (customerUser) => customerUser.id, {nullable: true})
     @JoinColumn({name: 'customer_user'})

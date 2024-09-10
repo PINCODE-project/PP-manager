@@ -18,11 +18,13 @@ import {CourseService} from "../course/course.service";
 import {Period} from "../period/entities/period.entity";
 import {PeriodService} from "../period/period.service";
 import {SSEModule} from "../sse/sse.module";
+import { ProgramService } from "../program/program.service";
+import { Program } from "../program/entities/program.entity";
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Passport, Request, CustomerCompany, CustomerUser, Course, Tag, Period]), SSEModule],
+  imports: [TypeOrmModule.forFeature([Passport, Request, CustomerCompany, CustomerUser, Course, Tag, Period, Program]), SSEModule],
   controllers: [SheduleManagerController],
-  providers: [SheduleManagerService, ConfigService, PartnerService, PassportService, RequestService, CourseService, CustomerCompanyService, CustomerUserService, PeriodService],
+  providers: [SheduleManagerService, ConfigService, PartnerService, ProgramService, PassportService, RequestService, CourseService, CustomerCompanyService, CustomerUserService, PeriodService],
 })
 export class SheduleManagerModule {
 }

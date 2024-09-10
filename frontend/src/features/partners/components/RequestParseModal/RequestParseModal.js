@@ -1,14 +1,14 @@
-import React, {useEffect, useState} from 'react';
-import {App, Button, Form, Input, Modal, Progress, Select, Spin} from "antd";
-import {useDispatch} from "react-redux";
+import React, { useEffect, useState } from 'react';
+import { App, Button, Form, Input, Modal, Progress, Select, Spin } from "antd";
+import { useDispatch } from "react-redux";
 import styles from "./PassportParseModal.module.css"
 import useSse from "../../../../hooks/use-sse";
-import {usePeriods} from "../../../../hooks/use-periods";
-import {parsePassports} from "../../../../store/slices/passportsSlice";
+import { usePeriods } from "../../../../hooks/use-periods";
+import { parseRequests } from "../../../../store/slices/requestsSlice";
 
 const {TextArea} = Input;
 
-export default function PassportParseModal(props) {
+export default function RequestParseModal(props) {
     const {message} = App.useApp();
     const dispatch = useDispatch();
     const [isLoading, setIsLoading] = useState(false);
@@ -43,7 +43,7 @@ export default function PassportParseModal(props) {
                 period_id: periods.periods.find(period => period.year === year && period.term === term).id
             }
 
-            dispatch(parsePassports(data)).then((response) => {
+            dispatch(parseRequests(data)).then((response) => {
                 setIsLoading(false)
                 message.success({content: "Информация успешно собрана!"})
             }, (error) => {
@@ -55,57 +55,57 @@ export default function PassportParseModal(props) {
 
     return (
         <Modal
-            title="Загрузка паспортов из Partners"
-            open={props.isOpen}
-            footer={() => undefined}
-            closeIcon={false}
+            title="Загрузка заявок из Partners"
+            open={ props.isOpen }
+            footer={ () => undefined }
+            closeIcon={ false }
         >
-            <Form autoComplete="off" disabled={isLoading} layout={'horizontal'}>
+            <Form autoComplete="off" disabled={ isLoading } layout={ 'horizontal' } >
                 <Form.Item
                     label="Год"
                 >
                     <Select
-                        defaultValue={2024}
-                        className={styles.select}
-                        onChange={handleChangeYear}
+                        defaultValue={ 2024 }
+                        className={ styles.select }
+                        onChange={ handleChangeYear }
                         options={
                             [...new Set(periods.periods.map(period => period.year))].map(year => ({
-                                value: year, label: `${year}/${year + 1}`
+                                value: year, label: `${ year }/${ year + 1 }`
                             }))
                         }
                     />
-                </Form.Item>
+                </Form.Item >
 
                 <Form.Item
                     label="Семестр"
                 >
                     <Select
-                        defaultValue={1}
-                        className={styles.select}
-                        onChange={handleChangeTerm}
-                        options={[
+                        defaultValue={ 1 }
+                        className={ styles.select }
+                        onChange={ handleChangeTerm }
+                        options={ [
                             {value: 1, label: 'Осенний'},
                             {value: 2, label: 'Весенний'},
-                        ]}
+                        ] }
                     />
-                </Form.Item>
+                </Form.Item >
 
                 {
                     isLoading ?
                         <>
-                            <p className={styles.loading}><Spin/> Не закрывайте страницу! Загружаю данные...</p>
-                            <Progress percent={parseInt(percent)} status="active"/>
+                            <p className={ styles.loading } ><Spin /> Не закрывайте страницу! Загружаю данные...</p >
+                            <Progress percent={ parseInt(percent) } status="active" />
                         </> :
-                        <div className={styles.buttons}>
-                            <Button onClick={() => props.setIsOpen(false)} disabled={isLoading}>
+                        <div className={ styles.buttons } >
+                            <Button onClick={ () => props.setIsOpen(false) } disabled={ isLoading } >
                                 Отмена
-                            </Button>
-                            <Button disabled={isLoading} onClick={() => parse()} type="primary">
+                            </Button >
+                            <Button disabled={ isLoading } onClick={ () => parse() } type="primary" >
                                 Начать
-                            </Button>
-                        </div>
+                            </Button >
+                        </div >
                 }
-            </Form>
-        </Modal>
+            </Form >
+        </Modal >
     );
 };

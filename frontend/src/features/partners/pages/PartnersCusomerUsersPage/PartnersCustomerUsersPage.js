@@ -124,19 +124,8 @@ export function PartnersCustomerUsersPage() {
                     />
                 </div>
 
-                {/*<div className={styles.buttons}>*/}
-                {/*    <Button*/}
-                {/*        type="primary"*/}
-                {/*        onClick={() => setIsParseModalOpen(true)}*/}
-                {/*    >*/}
-                {/*        Обновить информацию*/}
-                {/*    </Button>*/}
-                {/*</div>*/}
-
                 <div className={styles.buttons}>
-                    <Button
-                        onClick={() => setIsSettingsTableOpen(true)}
-                    >
+                    <Button onClick={() => setIsSettingsTableOpen(true)} >
                         Настроить таблицу
                     </Button>
                 </div>

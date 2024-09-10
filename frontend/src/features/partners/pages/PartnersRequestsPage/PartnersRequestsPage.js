@@ -1,20 +1,21 @@
 import SideBar from "../../../../components/SideBar/SideBar";
-import {useNavigate} from "react-router-dom";
-import {useDispatch} from "react-redux";
-import React, {useEffect, useState} from "react";
-import {App, Button, Select, Spin} from "antd";
+import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import React, { useEffect, useState } from "react";
+import { App, Button, Select, Spin } from "antd";
 import styles from './PartnersRequestsPage.module.css'
-import {removeProject} from "../../../../store/slices/projectSlice";
+import { removeProject } from "../../../../store/slices/projectSlice";
 import RequestsTableSettings from "../../components/RequestsTableSettings/RequestsTableSettings";
-import {useRequests} from "../../../../hooks/use-requests";
-import {getAllRequests, setEditedRequests, setEditRequests, setRequests} from "../../../../store/slices/requestsSlice";
+import { useRequests } from "../../../../hooks/use-requests";
+import { getAllRequests, setEditedRequests, setEditRequests } from "../../../../store/slices/requestsSlice";
 import RequestsTable from "../../components/RequestsTable/RequestsTable";
-import {removePassports} from "../../../../store/slices/passportsSlice";
-import {updateRequest} from "../../../../store/slices/requestSlice";
-import {removeStudent} from "../../../../store/slices/studentSlice";
-import {usePeriods} from "../../../../hooks/use-periods";
-import {getAllPeriods} from "../../../../store/slices/periodsSlice";
-import {unauthorizedHandler} from "../../../../core/utils/unauthorizedHandler";
+import { removePassports } from "../../../../store/slices/passportsSlice";
+import { updateRequest } from "../../../../store/slices/requestSlice";
+import { removeStudent } from "../../../../store/slices/studentSlice";
+import { usePeriods } from "../../../../hooks/use-periods";
+import { getAllPeriods } from "../../../../store/slices/periodsSlice";
+import { unauthorizedHandler } from "../../../../core/utils/unauthorizedHandler";
+import RequestParseModal from "../../components/RequestParseModal/RequestParseModal";
 
 export const initialRequestsTableColumns = [
     {
@@ -80,6 +81,7 @@ export function PartnersRequestsPage() {
     const dispatch = useDispatch();
     const {message} = App.useApp();
 
+    const [isParseModalOpen, setIsParseModalOpen] = useState(false);
     const [isSettingsTableOpen, setIsSettingsTableOpen] = useState(false);
     const [requestsTable, setRequestsTable] = useState([])
     const [isLoading, setIsLoading] = useState(false);
@@ -104,7 +106,7 @@ export function PartnersRequestsPage() {
     const periods = usePeriods()
 
     useEffect(() => {
-        if(!periods.isLoading) {
+        if (!periods.isLoading) {
             dispatch(getAllRequests({period_id: periods.periods.find(period => period.year === year && period.term === term).id}))
                 .catch((error) => unauthorizedHandler(error, dispatch, message))
         }
@@ -146,7 +148,7 @@ export function PartnersRequestsPage() {
         dispatch(setEditRequests(parsedRequestsTable));
     }, [requests.requests])
 
-     const saveRequests = async () => {
+    const saveRequests = async () => {
         if (!isLoading) {
             setIsLoading(true);
             message.loading({content: "Сохраняю заявки...", key: 'updateRequests', duration: 0})
@@ -195,65 +197,70 @@ export function PartnersRequestsPage() {
     }
 
     return (
-        <div className={styles.page}>
-            <SideBar selectedKeys={["PartnersRequests"]}/>
+        <div className={ styles.page } >
+            <SideBar selectedKeys={ ["PartnersRequests"] } />
 
-            <h1 className={styles.title}>Заявки</h1>
-            <div className={styles.header}>
-                <div className={styles.filters}>
+            <h1 className={ styles.title } >Заявки</h1 >
+            <div className={ styles.header } >
+                <div className={ styles.filters } >
                     <Select
-                        defaultValue={2024}
-                        onChange={handleChangeYear}
+                        defaultValue={ 2024 }
+                        onChange={ handleChangeYear }
                         options={
                             [...new Set(periods.periods.map(period => period.year))].map(year => ({
-                                value: year, label: `${year}/${year + 1}`
+                                value: year, label: `${ year }/${ year + 1 }`
                             }))
                         }
                     />
 
                     <Select
-                        defaultValue={1}
-                        onChange={handleChangeTerm}
-                        options={[
+                        defaultValue={ 1 }
+                        onChange={ handleChangeTerm }
+                        options={ [
                             {value: 1, label: 'Осенний'},
                             {value: 2, label: 'Весенний'},
-                        ]}
+                        ] }
                     />
-                </div>
+                </div >
 
-                <div className={styles.buttons}>
-                    <Button onClick={() => {
-                        if(isEdit)
+                <div className={ styles.buttons } >
+                    <Button onClick={ () => setIsParseModalOpen(true) }
+                    >
+                        Обновить заявки
+                    </Button >
+                    <Button onClick={ () => {
+                        if (isEdit)
                             saveRequests()
                         setIsEdit(!isEdit)
-                    }}>
-                        {isEdit ? "Сохранить данные" : "Редактировать данные"}
-                    </Button>
-                    <Button onClick={() => setIsSettingsTableOpen(true)}>
+                    } } >
+                        { isEdit ? "Сохранить данные" : "Редактировать данные" }
+                    </Button >
+                    <Button onClick={ () => setIsSettingsTableOpen(true) } >
                         Настроить таблицу
-                    </Button>
-                </div>
-            </div>
+                    </Button >
+                </div >
+            </div >
 
             {
                 requests.isLoading ?
-                    <Spin/> :
+                    <Spin /> :
                     <RequestsTable
-                        isEdit={isEdit}
-                        defaultRequests={requests}
-                        requests={requestsTable}
-                        editRequests={requests.editRequests}
-                        columns={requestsTableColumns}
+                        isEdit={ isEdit }
+                        defaultRequests={ requests }
+                        requests={ requestsTable }
+                        editRequests={ requests.editRequests }
+                        columns={ requestsTableColumns }
                     />
             }
 
             <RequestsTableSettings
-                isOpen={isSettingsTableOpen}
-                setIsOpen={setIsSettingsTableOpen}
+                isOpen={ isSettingsTableOpen }
+                setIsOpen={ setIsSettingsTableOpen }
 
-                tableColumns={requestsTableColumns}
-                setTableColumns={setRequestsTableColumns}
+                tableColumns={ requestsTableColumns }
+                setTableColumns={ setRequestsTableColumns }
             />
-        </div>
+            <RequestParseModal isOpen={ isParseModalOpen } setIsOpen={ setIsParseModalOpen } />
+        </div >
     )
 }

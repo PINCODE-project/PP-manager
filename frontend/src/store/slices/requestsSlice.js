@@ -1,5 +1,38 @@
 import {createAsyncThunk, createSlice} from '@reduxjs/toolkit';
 import API from "../../api/API";
+import { getAllPassports } from "./passportsSlice";
+
+export const parseRequests = createAsyncThunk(
+    'requests/parse',
+    async function (data, {rejectWithValue, dispatch}) {
+        try {
+            let response = await fetch(
+                API.PARSE_REQUESTS,
+                {
+                    method: 'post',
+                    headers: {
+                        "Content-Type": "application/json",
+                        "Authorization": "Bearer " + localStorage.getItem("PP-manager-accessToken")
+                    },
+                    body: JSON.stringify(data)
+                }
+            );
+
+            if (!response.ok) {
+                if (response.status === 401)
+                    throw new Error("Неверный Bearer токен!");
+                throw new Error("Ошибка сервера!");
+            }
+
+            response = await response.json()
+            dispatch(getAllRequests({period_id: data.period_id}))
+
+            return response;
+        } catch (error) {
+            return rejectWithValue(error.message);
+        }
+    }
+);
 
 export const getAllRequests = createAsyncThunk(
     'requests/all',

@@ -25,6 +25,8 @@ import {Options} from "selenium-webdriver/chrome";
 import {PeriodService} from "../period/period.service";
 import {SSEEnum} from "../sse/interfaces/sse-service.interface";
 import {SSEService} from "../sse/sse.service";
+import { ProgramService } from "../program/program.service";
+import { ProgramMappers } from "../program/mappers/program.mappers";
 
 const XLSX = require('xlsx');
 const JS_XLSX = require('js-xlsx');
@@ -42,6 +44,7 @@ export class PartnerService {
         private readonly customerUserService: CustomerUserService,
         private readonly configService: ConfigService,
         private readonly periodService: PeriodService,
+        private readonly programService: ProgramService,
         private readonly sseService: SSEService,
     ) {
     }
@@ -71,6 +74,25 @@ export class PartnerService {
             console.error('Failed to open website:', error);
         } finally {
             await driver.quit();
+        }
+    }
+
+    async parsePrograms(requestOptions: RequestInit) {
+        let programsResponse = await fetch(
+            "https://partner.urfu.ru/learning/program",
+            requestOptions
+        )
+
+        let programs = await programsResponse.json();
+
+        for (let program of programs.results) {
+            if (!await this.programService.isCreate(program.id)) {
+                console.log("Create program")
+                await this.programService.create(
+                    ProgramMappers.toCreateDto(program)
+                )
+            } else {
+            }
         }
     }
 

@@ -198,7 +198,7 @@ export function PartnersPassportsPage() {
 
                 <div className={styles.buttons}>
                     <Button onClick={() => setIsParseModalOpen(true)}>
-                        Обновить информацию
+                        Обновить паспорта
                     </Button>
                     <Button onClick={() => setIsSettingsTableOpen(true)}>
                         Настроить таблицу

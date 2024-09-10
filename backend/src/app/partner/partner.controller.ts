@@ -30,7 +30,7 @@ export class PartnerController {
     @ApiBearerAuth()
     @Post("request/parse")
     @UseGuards(JwtAuthGuard)
-    async parseRequest(@Body() parseRequestsDto: ParseRequestsDto) {
+    async parseRequests(@Body() parseRequestsDto: ParseRequestsDto) {
         const tokens = await this.partnerService.getTokens();
         return this.partnerService.parseRequests({...tokens, ...parseRequestsDto});
     }

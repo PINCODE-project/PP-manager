@@ -25,6 +25,8 @@ import { QuestionSectionModule } from './question-section/question-section.modul
 import {join} from "path";
 import {ServeStaticModule} from "@nestjs/serve-static";
 import {SSEModule} from "./sse/sse.module";
+import { ProgramModule } from './program/program.module';
+import { RequestProgramModule } from './request-program/request-program.module';
 
 @Module({
     imports: [
@@ -67,7 +69,9 @@ import {SSEModule} from "./sse/sse.module";
         StudentProjectResultModule,
         QuestionModule,
         QuestionSectionModule,
-        SSEModule
+        SSEModule,
+        ProgramModule,
+        RequestProgramModule
     ],
     controllers: [AppController],
     providers: [AppService],

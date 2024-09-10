@@ -22,6 +22,7 @@ const GET_CUSTOMER_USERS = `${HOST}/customer-user/all`;
 const GET_MAIN_ANALYTICS = `${HOST}/analytic/main`;
 const PARSE_PROJECTS = `${HOST}/teamproject/parse`;
 const PARSE_PASSPORTS = `${HOST}/partner/passport/parse`;
+const PARSE_REQUESTS = `${HOST}/partner/request/parse`;
 const UPDATE_REQUEST = `${HOST}/request`;
 const UPDATE_PASSPORT = `${HOST}/passport`;
 const CREATE_REPORT = `${HOST}/teamproject/report`;
@@ -54,7 +55,8 @@ const API = {
     CREATE_REPORT,
     GET_REPORT,
     SSE,
-    PARSE_PASSPORTS
+    PARSE_PASSPORTS,
+    PARSE_REQUESTS
 };
 
 export default API;
