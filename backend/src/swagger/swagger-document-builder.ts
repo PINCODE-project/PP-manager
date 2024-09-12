@@ -36,7 +36,7 @@ export class SwaggerDocumentBuilder {
     public setupSwagger() {
         const document = this.createDocument();
 
-        const swaggerUI = new SwaggerUI();
+        const swaggerUI = new SwaggerUI("http://localhost:5000/api");
         SwaggerModule.setup(
             'core/docs',
             this.app,

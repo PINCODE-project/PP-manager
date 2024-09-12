@@ -1,38 +1,35 @@
-import {Body, Controller, Get, Param, ParseIntPipe, Post, UseGuards, UsePipes, ValidationPipe} from '@nestjs/common';
-import {PartnerService} from './partner.service';
-import {ParsePassportsDto} from "./dto/parse-passports.dto";
-import {JwtAuthGuard} from "../auth/guards/jwt-auth.guard";
-import {ParsePassportDto} from "./dto/parse-passport.dto";
-import {ApiBearerAuth, ApiTags} from "@nestjs/swagger";
-import {ParseRequestsDto} from "./dto/parse-requests.dto";
+import { Body, Controller, Get, Param, ParseIntPipe, Post, UseGuards, UsePipes, ValidationPipe } from "@nestjs/common";
+import { PartnerService } from "./partner.service";
+import { ParsePassportsDto } from "./dto/parse-passports.dto";
+import { JwtAuthGuard } from "../auth/guards/jwt-auth.guard";
+import { ParsePassportDto } from "./dto/parse-passport.dto";
+import { ApiBearerAuth, ApiTags } from "@nestjs/swagger";
+import { ParseRequestsDto } from "./dto/parse-requests.dto";
 
-@ApiTags('partner')
-@Controller('partner')
+@ApiTags("partner")
+@Controller("partner")
 export class PartnerController {
-    constructor(private readonly partnerService: PartnerService) {
-    }
+    constructor(private readonly partnerService: PartnerService) {}
 
     @ApiBearerAuth()
     @Post("passport/parse")
     @UseGuards(JwtAuthGuard)
     async parsePassports(@Body() parsePassportsDto: ParsePassportsDto) {
-        const tokens = await this.partnerService.getTokens();
-        return this.partnerService.parsePassports({...tokens, ...parsePassportsDto});
+        return this.partnerService.parsePassports(parsePassportsDto);
     }
 
     @ApiBearerAuth()
     @Post("passport/parse/:id")
     @UseGuards(JwtAuthGuard)
-    parsePassport(@Param('id', ParseIntPipe) id: number, @Body() parsePassportDto: ParsePassportDto) {
-        return this.partnerService.parseAndCreatePassport({...parsePassportDto, id});
+    parsePassport(@Param("id", ParseIntPipe) id: number, @Body() parsePassportDto: ParsePassportDto) {
+        return this.partnerService.parseAndCreatePassport({ ...parsePassportDto, id });
     }
 
     @ApiBearerAuth()
     @Post("request/parse")
     @UseGuards(JwtAuthGuard)
     async parseRequests(@Body() parseRequestsDto: ParseRequestsDto) {
-        const tokens = await this.partnerService.getTokens();
-        return this.partnerService.parseRequests({...tokens, ...parseRequestsDto});
+        return this.partnerService.parseRequests(parseRequestsDto);
     }
 
     @ApiBearerAuth()

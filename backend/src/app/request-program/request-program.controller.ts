@@ -2,7 +2,9 @@ import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/commo
 import { RequestProgramService } from './request-program.service';
 import { CreateRequestProgramDto } from './dto/create-request-program.dto';
 import { UpdateRequestProgramDto } from './dto/update-request-program.dto';
+import { ApiTags } from "@nestjs/swagger";
 
+@ApiTags('program')
 @Controller('request-program')
 export class RequestProgramController {
   constructor(private readonly requestProgramService: RequestProgramService) {}

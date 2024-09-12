@@ -32,8 +32,12 @@ export class ProgramService {
     return await this.programRepository.findOne({where: {id}})
   }
 
-  update(id: number, updateProgramDto: UpdateProgramDto) {
-    return `This action updates a #${id} program`;
+  async update(id: number, updateProgramDto: UpdateProgramDto) {
+    await this.programRepository.update(id, updateProgramDto);
+
+    return this.programRepository.findOne({
+      where: {id},
+    })
   }
 
   remove(id: number) {
