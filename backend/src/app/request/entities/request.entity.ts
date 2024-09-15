@@ -1,9 +1,9 @@
-import {Column, Entity, JoinColumn, JoinTable, ManyToMany, ManyToOne, OneToMany, PrimaryColumn} from "typeorm";
-import {Period} from "../../period/entities/period.entity";
-import {Passport} from "../../passport/entities/passport.entity";
-import {CustomerUser} from "../../customer-user/entities/customer-user.entity";
-import {Tag} from "../../tag/entities/tag.entity";
-import {ApiProperty} from "@nestjs/swagger";
+import { Column, Entity, JoinColumn, JoinTable, ManyToMany, ManyToOne, OneToMany, PrimaryColumn } from "typeorm";
+import { Period } from "../../period/entities/period.entity";
+import { Passport } from "../../passport/entities/passport.entity";
+import { CustomerUser } from "../../customer-user/entities/customer-user.entity";
+import { Tag } from "../../tag/entities/tag.entity";
+import { ApiProperty } from "@nestjs/swagger";
 import { Project } from "../../project/entities/project.entity";
 import { RequestProgram } from "../../request-program/entities/request-program.entity";
 
@@ -16,62 +16,64 @@ export class Request {
     @Column()
     uid: string;
 
-    @Column({nullable: true})
+    @Column({ nullable: true })
     name: string;
 
-    @Column({nullable: true})
+    @Column({ nullable: true })
     date: Date;
 
-    @Column({nullable: true})
+    @Column({ nullable: true })
     goal: string;
 
-    @Column({nullable: true})
+    @Column({ nullable: true })
     result: string;
 
-    @Column({nullable: true})
+    @Column({ nullable: true })
     description: string;
 
-    @Column({nullable: true})
+    @Column({ nullable: true })
     criteria: string;
 
-    @Column({nullable: true})
+    @Column({ nullable: true })
     max_copies: number;
 
-    @Column({nullable: true})
+    @Column({ nullable: true })
     status: string;
 
-    @Column({default: 0})
+    @Column({ default: 0 })
     students_count: number;
 
-    @ManyToOne(() => Period, (period) => period.requests, {nullable: true})
-    @JoinColumn({name: 'period'})
-    period_id: Period
+    @ManyToOne(() => Period, (period) => period.requests, { nullable: true })
+    @JoinColumn({ name: "period" })
+    period_id: Period;
 
-    @OneToMany(() => Passport, (passport) => passport.request, {nullable: true})
+    @OneToMany(() => Passport, (passport) => passport.request, { nullable: true })
     passports: Passport[];
 
-    @OneToMany(() => RequestProgram, (requestProgram) => requestProgram.id, {nullable: true})
-    @JoinColumn({name: 'request_program'})
-    programs: RequestProgram[]
+    @OneToMany(() => RequestProgram, (requestProgram) => requestProgram.id, { nullable: true })
+    @JoinColumn({ name: "programs" })
+    programs: RequestProgram[];
 
-    @ManyToOne(() => CustomerUser, (customerUser) => customerUser.id, {nullable: true})
-    @JoinColumn({name: 'customer_user'})
+    @ManyToOne(() => CustomerUser, (customerUser) => customerUser.id, { nullable: true })
+    @JoinColumn({ name: "customer_user" })
     customer_user: CustomerUser;
 
-    @ManyToOne(() => Tag, (tag) => tag.id, {nullable: true})
-    @JoinColumn({name: 'track'})
+    @ManyToOne(() => Tag, (tag) => tag.id, { nullable: true })
+    @JoinColumn({ name: "track" })
     track: Tag;
 
     @ManyToMany(() => Tag, (tag) => tag.requests, {
-        cascade: true
+        cascade: true,
     })
     @JoinTable({
-        name: "request_tag", joinColumn: {
-            name: 'request_id',
-            referencedColumnName: 'id',
-        }, inverseJoinColumn: {
-            name: 'tag_id',
-            referencedColumnName: 'id',
+        name: "request_tag",
+        joinColumn: {
+            name: "request_id",
+            referencedColumnName: "id",
+        },
+        inverseJoinColumn: {
+            name: "tag_id",
+            referencedColumnName: "id",
         },
     })
     tags: Tag[];
