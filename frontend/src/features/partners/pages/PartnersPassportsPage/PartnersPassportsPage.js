@@ -205,6 +205,7 @@ export function PartnersPassportsPage() {
                 tags: passport.request.tags,
                 is_visible: passport.is_visible,
                 programs: passport.request.programs.map((program) => program.program),
+                programs_search: passport.request.programs.map((program) => `${program.program.uid} ${program.program.name}`).join(" "),
             })),
         );
     }, [passports]);

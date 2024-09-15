@@ -179,6 +179,7 @@ export function PartnersRequestsPage() {
             customer_company_name: request.customer_user.customer_company.name,
             students_count: request.students_count,
             programs: request.programs.map((program) => program.program),
+            programs_search: request.programs.map((program) => `${program.program.uid} ${program.program.name}`).join(" "),
         }));
         setRequestsTable(parsedRequestsTable);
         dispatch(setEditRequests(parsedRequestsTable));

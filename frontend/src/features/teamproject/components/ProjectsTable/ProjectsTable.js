@@ -275,6 +275,25 @@ export default function ProjectsTable(props) {
                                 onFilter={(value, record) => record.status.indexOf(value) === 0}
                             />
 
+                        if (column.key === "programs")
+                            return (
+                                <Column
+                                    title="Образовательные программы"
+                                    width={ 300 }
+                                    dataIndex="programs"
+                                    key="programs"
+                                    render={ (value, record) => {
+                                        return (
+                                            <div >
+                                                { value.map((program) => (
+                                                    <p >{ program.uid } { program.name }</p >
+                                                )) }
+                                            </div >
+                                        );
+                                    } }
+                                    { ...getColumnSearchProps("programs_search") }
+                                />
+                            );
                     })
                 }
             </Table>

@@ -52,6 +52,10 @@ export const initialProjectsTableColumns = [
         key: "status",
         name: "Статус",
     },
+    {
+        key: "programs",
+        name: "Образовательные программы",
+    },
 ];
 
 export function TeamprojectProjectsPage() {
@@ -127,6 +131,8 @@ export function TeamprojectProjectsPage() {
             isHavePresentation: project.isHavePresentation,
             comissionScore: project.comissionScore,
             status: project.status,
+            programs: project.passport.request.programs.map((program) => program.program),
+            programs_search: project.passport.request.programs.map((program) => `${program.program.uid} ${program.program.name}`).join(" "),
         })));
     }, [projects]);
 

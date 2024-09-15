@@ -519,11 +519,12 @@ export default function PassportsTable(props) {
                                     return (
                                         <div >
                                             { value.map((program) => (
-                                                <p >{ program.uid } {program.name}</p >
+                                                <p >{ program.uid } { program.name }</p >
                                             )) }
                                         </div >
                                     );
                                 } }
+                                { ...getColumnSearchProps("programs_search") }
                             />
                         );
 
