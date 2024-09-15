@@ -142,6 +142,9 @@ export class ProjectService {
                         customer_user: {
                             customer_company: true,
                         },
+                        programs: {
+                            program: true,
+                        },
                     },
                 },
                 students: {

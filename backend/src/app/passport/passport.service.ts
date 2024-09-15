@@ -105,6 +105,9 @@ export class PassportService {
                     customer_user: {
                         customer_company: true,
                     },
+                    programs: {
+                        program: true,
+                    },
                 },
                 course: true,
             },
@@ -151,6 +154,9 @@ export class PassportService {
                     customer_user: {
                         customer_company: true,
                     },
+                    programs: {
+                        program: true,
+                    },
                 },
                 course: true,
             },
@@ -170,6 +176,9 @@ export class PassportService {
                     tags: true,
                     customer_user: {
                         customer_company: true,
+                    },
+                    programs: {
+                        program: true,
                     },
                 },
                 course: true,
