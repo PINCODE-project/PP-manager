@@ -151,16 +151,6 @@ export class PartnerService {
                         id: request.id,
                     });
 
-                    for (let program of currentRequest.programs) {
-                        if (!(await this.requestProgramService.isCreate(currentRequest.id, program.program.id))) {
-                            // Программы для заявки не существует
-                            await this.requestProgramService.create({
-                                requestId: currentRequest.id,
-                                programId: program.program.id,
-                            });
-                        }
-                    }
-
                     if (!(await this.customerCompanyService.isCreate(currentRequest.partner.id))) {
                         // Компании заказчика не существует
                         this.logger.log("\tCreate customer company: (id:" + currentRequest.partner.id + ")");
@@ -194,6 +184,16 @@ export class PartnerService {
                     } else {
                         this.logger.log("\tUpdate request: (id:" + currentRequest.id + ")");
                         await this.requestService.update(currentRequest.id, RequestMappers.toUpdateDto(currentRequest));
+                    }
+
+                    for (let program of currentRequest.programs) {
+                        if (!(await this.requestProgramService.isCreate(currentRequest.id, program.program.id))) {
+                            // Программы для заявки не существует
+                            await this.requestProgramService.create({
+                                requestId: currentRequest.id,
+                                programId: program.program.id,
+                            });
+                        }
                     }
                 }
             } catch (error) {
@@ -268,18 +268,6 @@ export class PartnerService {
                     j += 1;
                     this.logger.log("Parse passport " + passport.id + " {");
 
-                    for (let program of currentPassport.programs) {
-                        if (!(await this.requestProgramService.isCreate(currentRequest.id, program.program.id))) {
-                            // Программы для заявки не существует
-
-                            const result = await this.requestProgramService.create({
-                                requestId: currentRequest.id,
-                                programId: program.id,
-                            });
-                            this.logger.log("\tCreate request program: (id:" + result.requestProgramID + ")");
-                        }
-                    }
-
                     if (!(await this.customerCompanyService.isCreate(currentRequest.partner.id))) {
                         // Компании заказчика не существует
                         this.logger.log("\tCreate customer company: (id:" + currentRequest.partner.id + ")");
@@ -313,6 +301,18 @@ export class PartnerService {
                     } else {
                         this.logger.log("\tUpdate request: (id:" + currentRequest.id + ")");
                         await this.requestService.update(currentRequest.id, RequestMappers.toUpdateDto(currentRequest));
+                    }
+
+                    for (let program of currentPassport.programs) {
+                        if (!(await this.requestProgramService.isCreate(currentRequest.id, program.program.id))) {
+                            // Программы для заявки не существует
+
+                            const result = await this.requestProgramService.create({
+                                requestId: currentRequest.id,
+                                programId: program.id,
+                            });
+                            this.logger.log("\tCreate request program: (id:" + result.requestProgramID + ")");
+                        }
                     }
 
                     if (!(await this.passportService.isCreate(passport.id))) {
