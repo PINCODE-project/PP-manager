@@ -83,6 +83,7 @@ export class PartnerService {
         let programsResponse = await fetch("https://partner.urfu.ru/learning/program", requestOptions);
         this.logger.log("Start parse programs {");
         let programs = await programsResponse.json();
+        console.log(programs);
         for (let program of programs) {
             if (!(await this.programService.isCreate(program.id))) {
                 this.logger.log(`\tCreate program (id: ${program.id})`);

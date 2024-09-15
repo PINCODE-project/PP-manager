@@ -1,11 +1,11 @@
-import { Column, Entity, JoinColumn, OneToMany, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, JoinColumn, OneToMany, PrimaryColumn } from "typeorm";
 import { ApiProperty } from "@nestjs/swagger";
 import { RequestProgram } from "../../request-program/entities/request-program.entity";
 
 @Entity()
 export class Program {
     @ApiProperty()
-    @PrimaryGeneratedColumn()
+    @PrimaryColumn()
     id: number;
 
     @Column()
@@ -38,10 +38,10 @@ export class Program {
     @Column()
     area_name: string;
 
-    @Column({nullable: true})
+    @Column({ nullable: true })
     head_id: number;
 
-    @OneToMany(() => RequestProgram, (requestProgram) => requestProgram.id, {nullable: true})
-    @JoinColumn({name: 'request_program'})
-    requests: RequestProgram[]
+    @OneToMany(() => RequestProgram, (requestProgram) => requestProgram.id, { nullable: true })
+    @JoinColumn({ name: "request_program" })
+    requests: RequestProgram[];
 }
