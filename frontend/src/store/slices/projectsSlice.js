@@ -8,11 +8,16 @@ export const getAllProjects = createAsyncThunk(
         try {
             dispatch(setProjectsLoading(true));
             let response = await fetch(
-                `${ API.GET_PROJECTS }/${ data.period_id }`,
+                `${ API.GET_PROJECTS }`,
                 {
+                    body: JSON.stringify({
+                        period_id: data.period_id,
+                        programs: data.programs,
+                    }),
                     method: "post",
                     headers: {
                         "Authorization": "Bearer " + localStorage.getItem("PP-manager-accessToken"),
+                        "Content-Type": "application/json",
                     },
                 },
             );

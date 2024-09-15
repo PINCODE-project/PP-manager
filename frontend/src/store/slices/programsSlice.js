@@ -11,7 +11,7 @@ export const getAllPrograms = createAsyncThunk(
                 {
                     method: "get",
                     headers: {
-                        "Authorization": "Bearer " + localStorage.getItem("PP-manager-accessToken"),
+                        "Authorization": "Bearer " + localStorage.getItem("PP-manager-accessToken")
                     },
                 },
             );

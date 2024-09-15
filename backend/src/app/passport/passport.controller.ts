@@ -25,21 +25,18 @@ export class PassportController {
     @ApiBearerAuth()
     @Post("/")
     @UseGuards(JwtAuthGuard)
-    @UsePipes(new ValidationPipe())
     findAll(@Body() findAllPassportsDto: FindAllPassportsDto) {
         return this.passportService.findAll(findAllPassportsDto);
     }
 
     @Get("/all/for-students/:period_id")
-    @UsePipes(new ValidationPipe())
-    findAllForStudents(@Param() findPassportsForStudentsDto: FindPassportsForStudentsDto) {
-        return this.passportService.findAllForStudents(findPassportsForStudentsDto);
+    findAllForStudents(@Param("period_id", ParseIntPipe) period_id: number) {
+        return this.passportService.findAllForStudents({ period_id });
     }
 
     @ApiBearerAuth()
     @Get(":id")
     @UseGuards(JwtAuthGuard)
-    @UsePipes(new ValidationPipe())
     findOne(@Param("id", ParseIntPipe) id: number) {
         return this.passportService.findOne({ id });
     }
@@ -47,7 +44,6 @@ export class PassportController {
     @ApiBearerAuth()
     @Patch(":id")
     @UseGuards(JwtAuthGuard)
-    @UsePipes(new ValidationPipe())
     update(@Param("id", ParseIntPipe) id: number, @Body() updatePassportDto: UpdatePassportDto) {
         return this.passportService.update(id, updatePassportDto);
     }

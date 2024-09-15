@@ -1,23 +1,22 @@
-import { Controller, Get, Param, ParseIntPipe, UseGuards, UsePipes, ValidationPipe } from "@nestjs/common";
+import { Body, Controller, Get, Param, Post, UseGuards } from "@nestjs/common";
 import { ProjectService } from "./project.service";
 import { JwtAuthGuard } from "../auth/guards/jwt-auth.guard";
 import { ApiTags } from "@nestjs/swagger";
+import { FindAllProjectsDto } from "./dto/find-all-projects.dto";
 
 @ApiTags("project")
 @Controller("project")
 export class ProjectController {
     constructor(private readonly projectService: ProjectService) {}
 
-    @Get("all/:period_id")
+    @Post()
     @UseGuards(JwtAuthGuard)
-    @UsePipes(new ValidationPipe())
-    findAll(@Param("period_id", ParseIntPipe) period_id: number) {
-        return this.projectService.findAll({ period_id });
+    findAll(@Body() findAllProjectDto: FindAllProjectsDto) {
+        return this.projectService.findAll(findAllProjectDto);
     }
 
     @Get(":id")
     @UseGuards(JwtAuthGuard)
-    @UsePipes(new ValidationPipe())
     findOne(@Param("id") id: string) {
         return this.projectService.findOne(id);
     }

@@ -3,7 +3,7 @@ import { CreateProjectDto } from "./dto/create-project.dto";
 import { UpdateProjectDto } from "./dto/update-project.dto";
 import { InjectRepository } from "@nestjs/typeorm";
 import { Project } from "./entities/project.entity";
-import { Repository } from "typeorm";
+import { In, Repository } from "typeorm";
 import { FindAllProjectsDto } from "./dto/find-all-projects.dto";
 import { Student } from "../student/entities/student.entity";
 import { Passport } from "../passport/entities/passport.entity";
@@ -58,9 +58,12 @@ export class ProjectService {
         return { projectID: res.id };
     }
 
-    async findAll(findAllProjectsDto: FindAllProjectsDto) {
+    async findAll(dto: FindAllProjectsDto) {
         const projects = await this.projectRepository.find({
-            where: { period: { id: findAllProjectsDto.period_id } },
+            where: {
+                period: { id: dto.period_id },
+                passport: { request: { programs: { program: { id: In(dto.programs) } } } },
+            },
             select: {
                 id: true,
                 name: true,

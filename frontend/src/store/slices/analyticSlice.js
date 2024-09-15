@@ -6,16 +6,18 @@ export const getMainAnalytics = createAsyncThunk(
     'analytic/main',
     async function (data, {rejectWithValue, dispatch}) {
         try {
+            dispatch(setMainAnalyticLoading(true))
             let response = await fetch(
                 `${API.GET_MAIN_ANALYTICS}`,
                 {
-                    body: {
+                    body: JSON.stringify({
                         period_id: data.period_id,
-                        programs: []
-                    },
-                    method: 'get',
+                        programs: data.programs
+                    }),
+                    method: 'post',
                     headers: {
-                        "Authorization": "Bearer " + localStorage.getItem("PP-manager-accessToken")
+                        "Authorization": "Bearer " + localStorage.getItem("PP-manager-accessToken"),
+                        "Content-Type": "application/json"
                     }
                 }
             );
@@ -43,6 +45,9 @@ const analyticSlice = createSlice({
         name: 'analytic',
         initialState: initialState,
         reducers: {
+            setMainAnalyticLoading(state, action) {
+                state.isLoading = action.payload;
+            },
             setMainAnalytic(state, action) {
                 state.mainAnalytic = action.payload
                 state.isLoading = false;
@@ -59,6 +64,6 @@ const analyticSlice = createSlice({
     })
 ;
 
-export const {setMainAnalytic, removeMainAnalytic} = analyticSlice.actions;
+export const {setMainAnalyticLoading, setMainAnalytic, removeMainAnalytic} = analyticSlice.actions;
 
 export default analyticSlice.reducer;

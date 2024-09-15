@@ -4,7 +4,7 @@ const USER = `${HOST}/user`;
 const AUTH = `${HOST}/auth`;
 const ACTIVATION = `${HOST}/activate`;
 
-const GET_PROJECTS = `${HOST}/project/all`;
+const GET_PROJECTS = `${HOST}/project`;
 const GET_PROJECT = `${HOST}/project`;
 const GET_TAGS = `${HOST}/tag/all`;
 const GET_PROGRAMS = `${HOST}/request-program/programs`;
