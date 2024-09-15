@@ -1,9 +1,9 @@
-import {IsNumber} from "class-validator";
+import { IsNumber } from "class-validator";
 
 export class DeleteFromOldProjectDto {
     @IsNumber()
-    studentId: number
+    studentId: number;
 
     @IsNumber()
-    periodId: number
+    periodId: number;
 }

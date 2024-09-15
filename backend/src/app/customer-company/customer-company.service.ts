@@ -1,32 +1,32 @@
-import {BadRequestException, Injectable, NotFoundException} from '@nestjs/common';
-import { CreateCustomerCompanyDto } from './dto/create-customer-company.dto';
-import { UpdateCustomerCompanyDto } from './dto/update-customer-company.dto';
-import {InjectRepository} from "@nestjs/typeorm";
-import {Request} from "../request/entities/request.entity";
-import {Repository} from "typeorm";
-import {CreateRequestDto} from "../request/dto/create-request.dto";
-import {CustomerCompany} from "./entities/customer-company.entity";
-import {UpdateCustomerUserDto} from "../customer-user/dto/update-customer-user.dto";
-import {FindAllPassportsDto} from "../passport/dto/find-all-passports.dto";
+import { BadRequestException, Injectable, NotFoundException } from "@nestjs/common";
+import { CreateCustomerCompanyDto } from "./dto/create-customer-company.dto";
+import { UpdateCustomerCompanyDto } from "./dto/update-customer-company.dto";
+import { InjectRepository } from "@nestjs/typeorm";
+import { Request } from "../request/entities/request.entity";
+import { Repository } from "typeorm";
+import { CreateRequestDto } from "../request/dto/create-request.dto";
+import { CustomerCompany } from "./entities/customer-company.entity";
+import { UpdateCustomerUserDto } from "../customer-user/dto/update-customer-user.dto";
+import { FindAllPassportsDto } from "../passport/dto/find-all-passports.dto";
 
 @Injectable()
 export class CustomerCompanyService {
     constructor(
         @InjectRepository(CustomerCompany)
         private readonly customerCompanyRepository: Repository<CustomerCompany>,
-    ) {
-    }
+    ) {}
 
     async isCreate(id: number) {
-        const customerCompany = await this.customerCompanyRepository.findOneBy({id})
+        const customerCompany = await this.customerCompanyRepository.findOneBy({ id });
         return !!customerCompany;
     }
 
     async create(createCustomerCompanyDto: CreateCustomerCompanyDto) {
-        const isCustomerCompanyExist = await this.customerCompanyRepository.existsBy({id: createCustomerCompanyDto.id})
+        const isCustomerCompanyExist = await this.customerCompanyRepository.existsBy({
+            id: createCustomerCompanyDto.id,
+        });
 
-        if (isCustomerCompanyExist)
-            throw new BadRequestException("The customer company already exist!");
+        if (isCustomerCompanyExist) throw new BadRequestException("The customer company already exist!");
 
         const newCustomerCompany = {
             id: createCustomerCompanyDto.id,
@@ -40,14 +40,13 @@ export class CustomerCompanyService {
         };
 
         const res = await this.customerCompanyRepository.save(newCustomerCompany);
-        return {customerCompanyID: res.id}
+        return { customerCompanyID: res.id };
     }
 
     async update(id: number, updateCustomerCompanyDto: UpdateCustomerCompanyDto) {
-        const customerCompany = await this.customerCompanyRepository.findOneBy({id})
+        const customerCompany = await this.customerCompanyRepository.findOneBy({ id });
 
-        if (!customerCompany)
-            throw new NotFoundException("Customer company not found!")
+        if (!customerCompany) throw new NotFoundException("Customer company not found!");
 
         await this.customerCompanyRepository.update(customerCompany.id, {
             name: updateCustomerCompanyDto.name,
@@ -60,10 +59,9 @@ export class CustomerCompanyService {
         });
 
         return this.customerCompanyRepository.findOne({
-            where: {id},
-        })
+            where: { id },
+        });
     }
-
 
     async findAll(findAllCustomerCompanyDto: FindAllPassportsDto) {
         const customerCompany = await this.customerCompanyRepository.find({
@@ -85,12 +83,12 @@ export class CustomerCompanyService {
             relations: {
                 customer_users: {
                     requests: {
-                        passports: true
+                        passports: true,
                     },
                 },
             },
-        })
+        });
 
-        return customerCompany
+        return customerCompany;
     }
 }

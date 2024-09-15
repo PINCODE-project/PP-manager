@@ -50,7 +50,7 @@ export class Request {
     @OneToMany(() => Passport, (passport) => passport.request, { nullable: true })
     passports: Passport[];
 
-    @OneToMany(() => RequestProgram, (requestProgram) => requestProgram.id, { nullable: true })
+    @OneToMany(() => RequestProgram, (requestProgram) => requestProgram.request, { nullable: true })
     @JoinColumn({ name: "programs" })
     programs: RequestProgram[];
 

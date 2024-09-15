@@ -18,7 +18,7 @@ export namespace ProgramMappers {
             area_id: program.area.id,
             area_uid: program.area.uid,
             area_name: program.area.name,
-            head_id: program.heads.length > 0 ? program.heads[0] : null
+            head_id: program.heads.length > 0 ? program.heads[0] : null,
         };
     }
 

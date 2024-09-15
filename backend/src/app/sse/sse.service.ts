@@ -1,7 +1,7 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
-import { Subject, Observable, map } from 'rxjs';
-import { EventData } from './interfaces/event-data.interface';
-import {ISseService, SSEEnum} from './interfaces/sse-service.interface';
+import { Injectable, NotFoundException } from "@nestjs/common";
+import { Subject, Observable, map } from "rxjs";
+import { EventData } from "./interfaces/event-data.interface";
+import { ISseService, SSEEnum } from "./interfaces/sse-service.interface";
 
 @Injectable()
 export class SSEService implements ISseService {

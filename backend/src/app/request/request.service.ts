@@ -119,9 +119,7 @@ export class RequestService {
                 customer_user: {
                     customer_company: true,
                 },
-                programs: {
-                    program: true,
-                },
+                programs: true,
             },
         });
 

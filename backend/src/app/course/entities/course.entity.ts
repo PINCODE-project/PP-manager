@@ -1,6 +1,6 @@
-import {Column, Entity, ManyToMany, PrimaryColumn, PrimaryGeneratedColumn} from "typeorm";
-import {Passport} from "../../passport/entities/passport.entity";
-import {ApiProperty} from "@nestjs/swagger";
+import { Column, Entity, ManyToMany, PrimaryColumn, PrimaryGeneratedColumn } from "typeorm";
+import { Passport } from "../../passport/entities/passport.entity";
+import { ApiProperty } from "@nestjs/swagger";
 
 @Entity()
 export class Course {
@@ -16,6 +16,6 @@ export class Course {
     @Column()
     number: number;
 
-    @ManyToMany(() => Passport, (passport) => passport.course, {onDelete: "CASCADE"})
-    passports: Passport[]
+    @ManyToMany(() => Passport, (passport) => passport.course, { onDelete: "CASCADE" })
+    passports: Passport[];
 }

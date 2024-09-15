@@ -1,10 +1,9 @@
 export class SwaggerUI {
-    constructor(private readonly applicationUrl: string) {
-    }
+    constructor(private readonly applicationUrl: string) {}
 
-    private customSiteTitle = 'PP-manager';
-    private faviconFilename = 'Logo.svg';
-    private topbarIconFilename = 'Logo.svg';
+    private customSiteTitle = "PP-manager";
+    private faviconFilename = "Logo.svg";
+    private topbarIconFilename = "Logo.svg";
 
     private customfavIcon: string = `/static/swagger/${this.faviconFilename}`;
     private customCss: string = `
@@ -334,13 +333,13 @@ export class SwaggerUI {
   `;
 
     private swaggerOptions = {
-        persistAuthorization: true
+        persistAuthorization: true,
     };
 
     public customOptions = {
         customfavIcon: this.customfavIcon,
         customSiteTitle: this.customSiteTitle,
         customCss: this.customCss,
-        swaggerOptions: this.swaggerOptions
+        swaggerOptions: this.swaggerOptions,
     };
 }

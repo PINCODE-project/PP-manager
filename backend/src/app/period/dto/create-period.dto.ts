@@ -1,9 +1,9 @@
-import {ApiProperty} from "@nestjs/swagger";
+import { ApiProperty } from "@nestjs/swagger";
 
 export class CreatePeriodDto {
-    @ApiProperty({description: 'Год'})
+    @ApiProperty({ description: "Год" })
     year: number;
 
-    @ApiProperty({description: 'Номер семестра'})
+    @ApiProperty({ description: "Номер семестра" })
     term: number;
 }

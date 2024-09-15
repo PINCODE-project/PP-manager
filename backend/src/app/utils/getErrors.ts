@@ -4,25 +4,25 @@ interface Error {
 }
 
 export function getBadRequestErrors(description: string, errors: Error[]) {
-    const parsedErrors = {}
+    const parsedErrors = {};
     errors.forEach((error) => {
         parsedErrors[error.description] = {
             value: {
-                "message": error.error,
-                "error": "Bad Request",
-                "statusCode": 400
-            }
-        }
-    })
+                message: error.error,
+                error: "Bad Request",
+                statusCode: 400,
+            },
+        };
+    });
     return {
         status: 400,
         description: "Неверные данные",
         content: {
-            'application/json': {
-                examples: parsedErrors
-            }
-        }
-    }
+            "application/json": {
+                examples: parsedErrors,
+            },
+        },
+    };
 }
 
 export function getUnauthorizedError() {
@@ -30,17 +30,16 @@ export function getUnauthorizedError() {
         status: 401,
         description: "Не авторизован",
         content: {
-            'application/json': {
+            "application/json": {
                 examples: {
                     "Не авторизован": {
                         value: {
-                            "message": "Unauthorized",
-                            "statusCode": 401
-                        }
-                    }
-                }
-            }
-        }
-    }
+                            message: "Unauthorized",
+                            statusCode: 401,
+                        },
+                    },
+                },
+            },
+        },
+    };
 }
-

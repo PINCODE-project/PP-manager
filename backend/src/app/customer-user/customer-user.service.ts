@@ -1,30 +1,28 @@
-import {BadRequestException, Injectable, NotFoundException} from '@nestjs/common';
-import {InjectRepository} from "@nestjs/typeorm";
-import {Repository} from "typeorm";
-import {CustomerUser} from "./entities/customer-user.entity";
-import {CreateCustomerUserDto} from "./dto/create-customer-user.dto";
-import {UpdateProjectDto} from "../project/dto/update-project.dto";
-import {UpdateCustomerUserDto} from "./dto/update-customer-user.dto";
-import {FindAllPassportsDto} from "../passport/dto/find-all-passports.dto";
+import { BadRequestException, Injectable, NotFoundException } from "@nestjs/common";
+import { InjectRepository } from "@nestjs/typeorm";
+import { Repository } from "typeorm";
+import { CustomerUser } from "./entities/customer-user.entity";
+import { CreateCustomerUserDto } from "./dto/create-customer-user.dto";
+import { UpdateProjectDto } from "../project/dto/update-project.dto";
+import { UpdateCustomerUserDto } from "./dto/update-customer-user.dto";
+import { FindAllPassportsDto } from "../passport/dto/find-all-passports.dto";
 
 @Injectable()
 export class CustomerUserService {
     constructor(
         @InjectRepository(CustomerUser)
         private readonly customerUserRepository: Repository<CustomerUser>,
-    ) {
-    }
+    ) {}
 
     async isCreate(id: number) {
-        const customerUser = await this.customerUserRepository.findOneBy({id})
+        const customerUser = await this.customerUserRepository.findOneBy({ id });
         return !!customerUser;
     }
 
     async create(createCustomerUserDto: CreateCustomerUserDto) {
-        const isCustomerUserExist = await this.customerUserRepository.existsBy({id: createCustomerUserDto.id})
+        const isCustomerUserExist = await this.customerUserRepository.existsBy({ id: createCustomerUserDto.id });
 
-        if (isCustomerUserExist)
-            throw new BadRequestException("The customer company already exist!");
+        if (isCustomerUserExist) throw new BadRequestException("The customer company already exist!");
 
         const newCustomerUser = {
             id: createCustomerUserDto.id,
@@ -35,24 +33,23 @@ export class CustomerUserService {
             middle_name: createCustomerUserDto.middle_name,
             phone: createCustomerUserDto.phone,
             qualification: createCustomerUserDto.qualification,
-            customer_company: {id: createCustomerUserDto.customer_company_id}
+            customer_company: { id: createCustomerUserDto.customer_company_id },
         };
 
         try {
             const res = await this.customerUserRepository.save(newCustomerUser);
-            return {customerUserID: res.id}
+            return { customerUserID: res.id };
         } catch {
-            delete newCustomerUser["customer_company"]
+            delete newCustomerUser["customer_company"];
             const res = await this.customerUserRepository.save(newCustomerUser);
-            return {customerUserID: res.id}
+            return { customerUserID: res.id };
         }
     }
 
     async update(id: number, updateCustomerUserDto: UpdateCustomerUserDto) {
-        const customerUser = await this.customerUserRepository.findOneBy({id})
+        const customerUser = await this.customerUserRepository.findOneBy({ id });
 
-        if (!customerUser)
-            throw new NotFoundException("Customer user not found!")
+        if (!customerUser) throw new NotFoundException("Customer user not found!");
 
         const updateCustomerUser = {
             id: updateCustomerUserDto.id,
@@ -63,19 +60,19 @@ export class CustomerUserService {
             middle_name: updateCustomerUserDto.middle_name,
             phone: updateCustomerUserDto.phone,
             qualification: updateCustomerUserDto.qualification,
-            customer_company: {id: updateCustomerUserDto.customer_company_id}
+            customer_company: { id: updateCustomerUserDto.customer_company_id },
         };
 
         try {
             await this.customerUserRepository.update(customerUser.id, updateCustomerUser);
         } catch {
-            delete updateCustomerUser["customer_company"]
+            delete updateCustomerUser["customer_company"];
             await this.customerUserRepository.update(customerUser.id, updateCustomerUser);
         }
 
         return this.customerUserRepository.findOne({
-            where: {id},
-        })
+            where: { id },
+        });
     }
 
     async findAll(findAllCustomerCompanyDto: FindAllPassportsDto) {
@@ -97,12 +94,12 @@ export class CustomerUserService {
             // },
             relations: {
                 requests: {
-                    passports: true
+                    passports: true,
                 },
-                customer_company: true
+                customer_company: true,
             },
-        })
+        });
 
-        return customerUsers
+        return customerUsers;
     }
 }

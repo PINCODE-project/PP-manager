@@ -1,4 +1,4 @@
-import {CreateCustomerCompanyDto} from "../dto/create-customer-company.dto";
+import { CreateCustomerCompanyDto } from "../dto/create-customer-company.dto";
 
 export namespace CustomerCompanyMappers {
     /**
@@ -14,7 +14,7 @@ export namespace CustomerCompanyMappers {
             post_address: partner.post_address,
             inn: partner.inn,
             ogrn: partner.ogrn,
-            phone: partner.phone
+            phone: partner.phone,
         };
     }
 }

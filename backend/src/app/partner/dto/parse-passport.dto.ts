@@ -1,5 +1,5 @@
-import {IsString} from "class-validator";
-import {ApiProperty} from "@nestjs/swagger";
+import { IsString } from "class-validator";
+import { ApiProperty } from "@nestjs/swagger";
 
 export class ParsePassportDto {
     @ApiProperty()
@@ -8,7 +8,7 @@ export class ParsePassportDto {
 
     @ApiProperty()
     @IsString()
-    session_cookie: string
+    session_cookie: string;
 
     @ApiProperty()
     id?: number;

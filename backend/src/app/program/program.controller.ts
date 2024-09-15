@@ -1,14 +1,13 @@
-import { Body, Controller, Delete, Get, Param, Patch, Post } from '@nestjs/common';
-import { ProgramService } from './program.service';
-import { CreateProgramDto } from './dto/create-program.dto';
-import { UpdateProgramDto } from './dto/update-program.dto';
+import { Body, Controller, Delete, Get, Param, Patch, Post } from "@nestjs/common";
+import { ProgramService } from "./program.service";
+import { CreateProgramDto } from "./dto/create-program.dto";
+import { UpdateProgramDto } from "./dto/update-program.dto";
 import { ApiTags } from "@nestjs/swagger";
 
-@ApiTags('program')
-@Controller('program')
+@ApiTags("program")
+@Controller("program")
 export class ProgramController {
-    constructor(private readonly programService: ProgramService) {
-    }
+    constructor(private readonly programService: ProgramService) {}
 
     @Post()
     create(@Body() createProgramDto: CreateProgramDto) {
@@ -20,18 +19,18 @@ export class ProgramController {
         return this.programService.findAll();
     }
 
-    @Get(':id')
-    findOne(@Param('id') id: string) {
+    @Get(":id")
+    findOne(@Param("id") id: string) {
         return this.programService.findOne(+id);
     }
 
-    @Patch(':id')
-    update(@Param('id') id: string, @Body() updateProgramDto: UpdateProgramDto) {
+    @Patch(":id")
+    update(@Param("id") id: string, @Body() updateProgramDto: UpdateProgramDto) {
         return this.programService.update(+id, updateProgramDto);
     }
 
-    @Delete(':id')
-    remove(@Param('id') id: string) {
+    @Delete(":id")
+    remove(@Param("id") id: string) {
         return this.programService.remove(+id);
     }
 }

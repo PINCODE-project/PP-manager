@@ -41,7 +41,7 @@ export class Program {
     @Column({ nullable: true })
     head_id: number;
 
-    @OneToMany(() => RequestProgram, (requestProgram) => requestProgram.id, { nullable: true })
+    @OneToMany(() => RequestProgram, (requestProgram) => requestProgram.request, { nullable: true })
     @JoinColumn({ name: "request_program" })
     requests: RequestProgram[];
 }

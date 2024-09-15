@@ -1,7 +1,7 @@
-import { Controller } from '@nestjs/common';
-import { SheduleManagerService } from './shedule-manager.service';
+import { Controller } from "@nestjs/common";
+import { SheduleManagerService } from "./shedule-manager.service";
 
-@Controller('shedule-manager')
+@Controller("shedule-manager")
 export class SheduleManagerController {
-  constructor(private readonly sheduleManagerService: SheduleManagerService) {}
+    constructor(private readonly sheduleManagerService: SheduleManagerService) {}
 }

@@ -1,6 +1,6 @@
-import {Column, Entity, ManyToMany, OneToMany, PrimaryGeneratedColumn} from "typeorm";
-import {Request} from "../../request/entities/request.entity";
-import {ApiProperty} from "@nestjs/swagger";
+import { Column, Entity, ManyToMany, OneToMany, PrimaryGeneratedColumn } from "typeorm";
+import { Request } from "../../request/entities/request.entity";
+import { ApiProperty } from "@nestjs/swagger";
 
 @Entity()
 export class Tag {
@@ -14,12 +14,12 @@ export class Tag {
     @Column()
     color: string;
 
-    @Column({default: true})
+    @Column({ default: true })
     is_track: boolean;
 
-    @ManyToMany(() => Request, (request) => request.tags, {onDelete: "CASCADE"})
-    requests: Request[]
+    @ManyToMany(() => Request, (request) => request.tags, { onDelete: "CASCADE" })
+    requests: Request[];
 
-    @OneToMany(() => Request, (request) => request.track, {nullable: true})
+    @OneToMany(() => Request, (request) => request.track, { nullable: true })
     requests_track: Request[];
 }

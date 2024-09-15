@@ -1,5 +1,5 @@
-import {CreateRequestDto} from "../dto/create-request.dto";
-import {UpdateRequestDto} from "../dto/update-request.dto";
+import { CreateRequestDto } from "../dto/create-request.dto";
+import { UpdateRequestDto } from "../dto/update-request.dto";
 
 enum Statuses {
     "Принята" = "ACPT",
@@ -25,7 +25,7 @@ export namespace RequestMappers {
             period_id: request.semester,
             status: request.statuses[0].text,
             date: request.date,
-            customer_user_id: request.manager.id
+            customer_user_id: request.manager.id,
         };
     }
 
@@ -45,7 +45,7 @@ export namespace RequestMappers {
             period_id: request.semester,
             status: request.statuses[0].text,
             date: request.date,
-            customer_user_id: request.manager.id
+            customer_user_id: request.manager.id,
         };
     }
 }

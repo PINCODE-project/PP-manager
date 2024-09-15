@@ -1,5 +1,5 @@
-import {CreatePassportDto} from "../dto/create-passport.dto";
-import {UpdatePassportDto} from "../dto/update-passport.dto";
+import { CreatePassportDto } from "../dto/create-passport.dto";
+import { UpdatePassportDto } from "../dto/update-passport.dto";
 
 export namespace PassportMappers {
     /**
@@ -37,7 +37,7 @@ export namespace PassportMappers {
             course: passport.mainProgram.course,
             request_id: passport.source?.id || passport.id,
             kind: passport.kind,
-            status: passport.statuses[0].text
+            status: passport.statuses[0].text,
         };
     }
 }

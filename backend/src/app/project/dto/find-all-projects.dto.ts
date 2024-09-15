@@ -1,3 +1,3 @@
 export class FindAllProjectsDto {
-    period_id: number
+    period_id: number;
 }

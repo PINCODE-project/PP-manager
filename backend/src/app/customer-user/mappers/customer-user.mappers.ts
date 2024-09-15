@@ -1,5 +1,5 @@
-import {CreateCustomerUserDto} from "../dto/create-customer-user.dto";
-import {UpdateCustomerUserDto} from "../dto/update-customer-user.dto";
+import { CreateCustomerUserDto } from "../dto/create-customer-user.dto";
+import { UpdateCustomerUserDto } from "../dto/update-customer-user.dto";
 
 export namespace CustomerUserMappers {
     /**
@@ -16,7 +16,7 @@ export namespace CustomerUserMappers {
             middle_name: manager.middle_name,
             phone: manager.phone,
             qualification: manager.qualification,
-            customer_company_id: manager.partner
+            customer_company_id: manager.partner,
         };
     }
 
@@ -33,7 +33,7 @@ export namespace CustomerUserMappers {
             middle_name: manager.middle_name,
             phone: manager.phone,
             qualification: manager.qualification,
-            customer_company_id: manager.partner
+            customer_company_id: manager.partner,
         };
     }
 }

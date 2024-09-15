@@ -1,12 +1,12 @@
-import {IsString, IsUUID} from "class-validator";
+import { IsString, IsUUID } from "class-validator";
 
 export class CreateQuestionDto {
     @IsString()
-    question: string
+    question: string;
 
     @IsString()
-    answer: string
+    answer: string;
 
     @IsUUID()
-    questionSectionId: string
+    questionSectionId: string;
 }

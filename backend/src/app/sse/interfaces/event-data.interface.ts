@@ -1,3 +1,3 @@
 export interface EventData {
-  data: string;
+    data: string;
 }

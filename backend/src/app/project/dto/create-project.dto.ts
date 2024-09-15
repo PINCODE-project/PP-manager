@@ -1,4 +1,4 @@
-import {Student} from "../../student/entities/student.entity";
+import { Student } from "../../student/entities/student.entity";
 
 export class CreateProjectDto {
     project: any;

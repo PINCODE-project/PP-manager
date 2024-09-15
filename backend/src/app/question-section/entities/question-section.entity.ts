@@ -1,6 +1,6 @@
-import {Column, Entity, OneToMany, PrimaryGeneratedColumn} from "typeorm";
-import {Question} from "../../question/entities/question.entity";
-import {ApiProperty} from "@nestjs/swagger";
+import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
+import { Question } from "../../question/entities/question.entity";
+import { ApiProperty } from "@nestjs/swagger";
 
 @Entity()
 export class QuestionSection {
@@ -9,8 +9,8 @@ export class QuestionSection {
     id: string;
 
     @Column()
-    name: string
+    name: string;
 
-    @OneToMany(() => Question, (question) => question.questionSection, {nullable: true})
+    @OneToMany(() => Question, (question) => question.questionSection, { nullable: true })
     questions: Question[];
 }
