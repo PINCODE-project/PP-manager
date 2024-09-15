@@ -5,6 +5,9 @@ import { JwtAuthGuard } from "../auth/guards/jwt-auth.guard";
 import { ParsePassportDto } from "./dto/parse-passport.dto";
 import { ApiBearerAuth, ApiTags } from "@nestjs/swagger";
 import { ParseRequestsDto } from "./dto/parse-requests.dto";
+import { CreateReportDto } from "../teamproject/dto/create-report.dto";
+import { CreateRequestReportDto } from "./dto/create-request-report.dto";
+import { CreatePassportReportDto } from "./dto/create-passport-report.dto";
 
 @ApiTags("partner")
 @Controller("partner")
@@ -36,16 +39,16 @@ export class PartnerController {
     @Post("request/report")
     @UsePipes(new ValidationPipe())
     @UseGuards(JwtAuthGuard)
-    createRequestReport() {
-        return this.partnerService.createRequestReport();
+    createRequestReport(@Body() createRequestReportDto: CreateRequestReportDto) {
+        return this.partnerService.createRequestReport(createRequestReportDto);
     }
 
     @ApiBearerAuth()
     @Post("passport/report")
     @UsePipes(new ValidationPipe())
     @UseGuards(JwtAuthGuard)
-    createPassportReport() {
-        return this.partnerService.createPassportReport();
+    createPassportReport(@Body() createPassportReportDto: CreatePassportReportDto) {
+        return this.partnerService.createPassportReport(createPassportReportDto);
     }
 
     @ApiBearerAuth()

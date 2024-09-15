@@ -2,15 +2,14 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import API from "../../api/API";
 
 
-export const getAllProjects = createAsyncThunk(
-    "projects/all",
+export const getAllPrograms = createAsyncThunk(
+    "programs/all",
     async function(data, { rejectWithValue, dispatch }) {
         try {
-            dispatch(setProjectsLoading(true));
             let response = await fetch(
-                `${ API.GET_PROJECTS }/${ data.period_id }`,
+                `${ API.GET_PROGRAMS }`,
                 {
-                    method: "post",
+                    method: "get",
                     headers: {
                         "Authorization": "Bearer " + localStorage.getItem("PP-manager-accessToken"),
                     },
@@ -18,13 +17,11 @@ export const getAllProjects = createAsyncThunk(
             );
 
             if (!response.ok) {
-                if (response.status === 401)
-                    throw new Error("Не авторизован!");
                 throw new Error("Ошибка сервера!");
             }
 
             response = await response.json();
-            dispatch(setProjects(response));
+            dispatch(setPrograms(response));
 
             return response;
         } catch (error) {
@@ -34,33 +31,30 @@ export const getAllProjects = createAsyncThunk(
 );
 
 const initialState = {
-    projects: [],
+    programs: [],
     isLoading: true,
 };
 
-const projectsSlice = createSlice({
-        name: "projects",
+const programsSlice = createSlice({
+        name: "programs",
         initialState: initialState,
         reducers: {
-            setProjectsLoading(state, action) {
-                state.isLoading = action.payload;
-            },
-            setProjects(state, action) {
-                state.projects = action.payload;
+            setPrograms(state, action) {
+                state.programs = action.payload;
                 state.isLoading = false;
             },
-            removeProjects(state) {
-                state.projects = [];
+            removePrograms(state) {
+                state.programs = [];
                 state.isLoading = true;
             },
         },
         extraReducers: builder => builder
-            .addCase(getAllProjects.rejected, (state, action) => {
+            .addCase(getAllPrograms.rejected, (state, action) => {
                 throw new Error(action.payload);
             }),
     })
 ;
 
-export const { setProjectsLoading, setProjects, removeProjects } = projectsSlice.actions;
+export const { setPrograms, removePrograms } = programsSlice.actions;
 
-export default projectsSlice.reducer;
+export default programsSlice.reducer;

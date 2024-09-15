@@ -15,6 +15,7 @@ import periodsReducer from "./slices/periodsSlice";
 import studentReducer from "./slices/studentSlice";
 import questionsReducer from "./slices/questionsSlice";
 import questionSectionsReducer from "./slices/questionSectionsSlice";
+import programsReducer from "./slices/programsSlice";
 
 export const store = configureStore({
     reducer: {
@@ -34,5 +35,6 @@ export const store = configureStore({
         tags: tagsReducer,
         periods: periodsReducer,
         student: studentReducer,
+        programs: programsReducer,
     },
 });

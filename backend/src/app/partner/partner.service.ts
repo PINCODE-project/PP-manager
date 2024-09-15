@@ -29,6 +29,9 @@ import { SSEService } from "../sse/sse.service";
 import { ProgramService } from "../program/program.service";
 import { ProgramMappers } from "../program/mappers/program.mappers";
 import { RequestProgramService } from "../request-program/request-program.service";
+import { v4 as uuidv4 } from "uuid";
+import { CreateRequestReportDto } from "./dto/create-request-report.dto";
+import { CreatePassportReportDto } from "./dto/create-passport-report.dto";
 
 const XLSX = require("xlsx");
 const JS_XLSX = require("js-xlsx");
@@ -535,9 +538,10 @@ export class PartnerService {
         return fullRequest;
     }
 
-    async createRequestReport() {
+    async createRequestReport(dto: CreateRequestReportDto) {
         let requests = await this.requestService.findAll({
-            period_id: 8,
+            period_id: dto.periodId,
+            programs: dto.programs,
         });
 
         let workbook = XLSX.utils.book_new();
@@ -546,7 +550,7 @@ export class PartnerService {
             "!ref": "A1:G" + (requests.length + 1), // Sheet Range (Which cells will be included in the output)
             A1: {
                 t: "s",
-                v: "Паспорт",
+                v: "Номер заявки",
             },
             B1: {
                 t: "s",
@@ -600,13 +604,16 @@ export class PartnerService {
         });
 
         XLSX.utils.book_append_sheet(workbook, requestsSheet, "Заявки");
-        JS_XLSX.writeFile(workbook, "Заявки.xlsx");
+        const bookId = uuidv4();
+        JS_XLSX.writeFile(workbook, `static/${bookId}.xlsx`);
         console.log("End of create report");
+        return { reportFile: `${bookId}.xlsx` };
     }
 
-    async createPassportReport() {
+    async createPassportReport(dto: CreatePassportReportDto) {
         let passports = await this.passportService.findAll({
-            period_id: 8,
+            period_id: dto.periodId,
+            programs: dto.programs,
         });
         passports = passports.filter((passport) => passport.is_visible);
 
@@ -712,8 +719,10 @@ export class PartnerService {
             };
         });
 
-        XLSX.utils.book_append_sheet(workbook, passportsSheet, "Проекты");
-        JS_XLSX.writeFile(workbook, "Проекты.xlsx");
+        XLSX.utils.book_append_sheet(workbook, passportsSheet, "Паспорта");
+        const bookId = uuidv4();
+        JS_XLSX.writeFile(workbook, `static/${bookId}.xlsx`);
         console.log("End of create report");
+        return { reportFile: `${bookId}.xlsx` };
     }
 }

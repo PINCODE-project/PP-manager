@@ -1,8 +1,20 @@
-import { Body, Controller, Get, Param, ParseIntPipe, Patch, UseGuards, UsePipes, ValidationPipe } from "@nestjs/common";
+import {
+    Body,
+    Controller,
+    Get,
+    Param,
+    ParseIntPipe,
+    Patch,
+    Post,
+    UseGuards,
+    UsePipes,
+    ValidationPipe,
+} from "@nestjs/common";
 import { RequestService } from "./request.service";
 import { JwtAuthGuard } from "../auth/guards/jwt-auth.guard";
 import { UpdateRequestDto } from "./dto/update-request.dto";
 import { ApiBearerAuth, ApiTags } from "@nestjs/swagger";
+import { FindAllRequestsDto } from "./dto/find-all-requests.dto";
 
 @ApiTags("request")
 @Controller("request")
@@ -10,17 +22,15 @@ export class RequestController {
     constructor(private readonly requestService: RequestService) {}
 
     @ApiBearerAuth()
-    @Get("/all/:period_id")
+    @Post("/")
     @UseGuards(JwtAuthGuard)
-    @UsePipes(new ValidationPipe())
-    findAll(@Param("period_id", ParseIntPipe) period_id: number) {
-        return this.requestService.findAll({ period_id });
+    findAll(@Body() findAllRequestsDto: FindAllRequestsDto) {
+        return this.requestService.findAll(findAllRequestsDto);
     }
 
     @ApiBearerAuth()
     @Patch(":id")
     @UseGuards(JwtAuthGuard)
-    @UsePipes(new ValidationPipe())
     update(@Param("id", ParseIntPipe) id: number, @Body() updateRequestDto: UpdateRequestDto) {
         return this.requestService.update(id, updateRequestDto);
     }

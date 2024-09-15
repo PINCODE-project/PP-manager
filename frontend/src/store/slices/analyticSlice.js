@@ -7,8 +7,12 @@ export const getMainAnalytics = createAsyncThunk(
     async function (data, {rejectWithValue, dispatch}) {
         try {
             let response = await fetch(
-                `${API.GET_MAIN_ANALYTICS}/${data.period_id}/`,
+                `${API.GET_MAIN_ANALYTICS}`,
                 {
+                    body: {
+                        period_id: data.period_id,
+                        programs: []
+                    },
                     method: 'get',
                     headers: {
                         "Authorization": "Bearer " + localStorage.getItem("PP-manager-accessToken")

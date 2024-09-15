@@ -6,6 +6,7 @@ import { CreateCustomerUserDto } from "./dto/create-customer-user.dto";
 import { UpdateProjectDto } from "../project/dto/update-project.dto";
 import { UpdateCustomerUserDto } from "./dto/update-customer-user.dto";
 import { FindAllPassportsDto } from "../passport/dto/find-all-passports.dto";
+import { FindAllCustomerUserDto } from "./dto/find-all-customer-user.dto";
 
 @Injectable()
 export class CustomerUserService {
@@ -75,7 +76,7 @@ export class CustomerUserService {
         });
     }
 
-    async findAll(findAllCustomerCompanyDto: FindAllPassportsDto) {
+    async findAll(findAllCustomerCompanyDto: FindAllCustomerUserDto) {
         const customerUsers = await this.customerUserRepository.find({
             // where: {request: {period_id: {id: findAllCustomerCompanyDto.period_id}}},
             // select: {

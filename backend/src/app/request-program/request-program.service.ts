@@ -28,6 +28,16 @@ export class RequestProgramService {
         return { requestProgramID: res.id };
     }
 
+    async findAllPrograms() {
+        const programs = await this.requestProgramRepository
+            .createQueryBuilder("request_program")
+            .select("request_program.program", "program_id")
+            .distinct(true)
+            .leftJoinAndSelect("program", "program", "request_program.program = program.id")
+            .getRawMany();
+        return programs;
+    }
+
     findAll() {
         return `This action returns all requestProgram`;
     }

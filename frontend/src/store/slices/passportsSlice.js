@@ -38,13 +38,19 @@ export const getAllPassports = createAsyncThunk(
     'passports/all',
     async function (data, {rejectWithValue, dispatch}) {
         try {
+            dispatch(setPassportsLoading(true))
             let response = await fetch(
-                `${API.GET_PASSPORTS}/${data.period_id}/`,
+                API.GET_PASSPORTS,
                 {
-                    method: 'get',
+                    method: 'post',
                     headers: {
-                        "Authorization": "Bearer " + localStorage.getItem("PP-manager-accessToken")
-                    }
+                        "Authorization": "Bearer " + localStorage.getItem("PP-manager-accessToken"),
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({
+                        period_id: data.period_id,
+                        programs: data.programs
+                    })
                 }
             );
 
@@ -73,6 +79,9 @@ const passportsSlice = createSlice({
         name: 'passports',
         initialState: initialState,
         reducers: {
+            setPassportsLoading(state, action) {
+                state.isLoading = action.payload;
+            },
             setPassports(state, action) {
                 state.passports = action.payload
                 state.isLoading = false;
@@ -89,6 +98,6 @@ const passportsSlice = createSlice({
     })
 ;
 
-export const {setPassports, removePassports} = passportsSlice.actions;
+export const {setPassportsLoading, setPassports, removePassports} = passportsSlice.actions;
 
 export default passportsSlice.reducer;

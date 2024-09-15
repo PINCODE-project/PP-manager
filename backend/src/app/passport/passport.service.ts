@@ -1,12 +1,13 @@
 import { BadRequestException, Injectable, NotFoundException } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
-import { Repository } from "typeorm";
+import { In, Repository } from "typeorm";
 import { CreatePassportDto } from "./dto/create-passport.dto";
 import { Passport } from "./entities/passport.entity";
 import { UpdatePassportDto } from "./dto/update-passport.dto";
 import { FindAllPassportsDto } from "./dto/find-all-passports.dto";
 import { Course } from "../course/entities/course.entity";
 import { FindOnePassportDto } from "./dto/find-one-passport.dto";
+import { FindPassportsForStudentsDto } from "./dto/find-passports-for-students.dto";
 
 @Injectable()
 export class PassportService {
@@ -82,7 +83,12 @@ export class PassportService {
 
     async findAll(findAllPassportsDto: FindAllPassportsDto) {
         const passports = await this.passportRepository.find({
-            where: { request: { period_id: { id: findAllPassportsDto.period_id } } },
+            where: {
+                request: {
+                    period_id: { id: findAllPassportsDto.period_id },
+                    programs: { program: { id: In(findAllPassportsDto.programs) } },
+                },
+            },
             // select: {
             //     id: true,
             //     passport: true,
@@ -116,9 +122,19 @@ export class PassportService {
         return passports;
     }
 
-    async findAllForStudents(findAllPassportsDto: FindAllPassportsDto) {
+    async findAllForStudents(dto: FindPassportsForStudentsDto) {
         const passports = await this.passportRepository.find({
-            where: { request: { period_id: { id: findAllPassportsDto.period_id } }, is_visible: true },
+            where: {
+                request: {
+                    period_id: { id: Number(dto.period_id) },
+                    programs: {
+                        program: {
+                            level: "LBAK",
+                        },
+                    },
+                },
+                is_visible: true,
+            },
             select: {
                 id: true,
                 short_name: true,

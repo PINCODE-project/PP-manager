@@ -1,12 +1,11 @@
 import { BadRequestException, Injectable, NotFoundException } from "@nestjs/common";
 import { CreateRequestDto } from "./dto/create-request.dto";
 import { InjectRepository } from "@nestjs/typeorm";
-import { Repository } from "typeorm";
+import { In, Repository } from "typeorm";
 import { Request } from "./entities/request.entity";
-import { UpdateCustomerUserDto } from "../customer-user/dto/update-customer-user.dto";
 import { UpdateRequestDto } from "./dto/update-request.dto";
-import { FindAllPassportsDto } from "../passport/dto/find-all-passports.dto";
 import { Tag } from "../tag/entities/tag.entity";
+import { FindAllRequestsDto } from "./dto/find-all-requests.dto";
 
 @Injectable()
 export class RequestService {
@@ -94,9 +93,12 @@ export class RequestService {
         });
     }
 
-    async findAll(findAllPassportsDto: FindAllPassportsDto) {
+    async findAll(findAllRequestsDto: FindAllRequestsDto) {
         const requests = await this.requestRepository.find({
-            where: { period_id: { id: findAllPassportsDto.period_id } },
+            where: {
+                period_id: { id: findAllRequestsDto.period_id },
+                programs: { program: { id: In(findAllRequestsDto.programs) } },
+            },
             // select: {
             //     id: true,
             //     passport: true,
@@ -127,6 +129,4 @@ export class RequestService {
 
         return requests;
     }
-
-    async findAllPrograms() {}
 }

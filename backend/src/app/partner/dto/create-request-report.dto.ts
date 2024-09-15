@@ -1,10 +1,10 @@
-import { ApiProperty } from "@nestjs/swagger";
 import { IsNumber } from "class-validator";
+import { ApiProperty } from "@nestjs/swagger";
 
-export class FindAllPassportsDto {
+export class CreateRequestReportDto {
     @ApiProperty()
     @IsNumber()
-    period_id: number;
+    periodId: number;
 
     @ApiProperty()
     programs: number[];

@@ -8,6 +8,7 @@ import { CreateRequestDto } from "../request/dto/create-request.dto";
 import { CustomerCompany } from "./entities/customer-company.entity";
 import { UpdateCustomerUserDto } from "../customer-user/dto/update-customer-user.dto";
 import { FindAllPassportsDto } from "../passport/dto/find-all-passports.dto";
+import { FindAllCustomerCompanyDto } from "./dto/find-all-customer-company.dto";
 
 @Injectable()
 export class CustomerCompanyService {
@@ -63,7 +64,7 @@ export class CustomerCompanyService {
         });
     }
 
-    async findAll(findAllCustomerCompanyDto: FindAllPassportsDto) {
+    async findAll(findAllCustomerCompanyDto: FindAllCustomerCompanyDto) {
         const customerCompany = await this.customerCompanyRepository.find({
             // where: {request: {period_id: {id: findAllCustomerCompanyDto.period_id}}},
             // select: {
