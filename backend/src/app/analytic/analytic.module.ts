@@ -1,6 +1,6 @@
-import { Module } from '@nestjs/common';
-import { AnalyticService } from './analytic.service';
-import { AnalyticController } from './analytic.controller';
+import { Module } from "@nestjs/common";
+import { AnalyticService } from "./analytic.service";
+import { AnalyticController } from "./analytic.controller";
 import { TypeOrmModule } from "@nestjs/typeorm";
 import { Passport } from "../passport/entities/passport.entity";
 import { Request } from "../request/entities/request.entity";
@@ -22,11 +22,39 @@ import { Student } from "../student/entities/student.entity";
 import { StudentService } from "../student/student.service";
 import { ProgramService } from "../program/program.service";
 import { Program } from "../program/entities/program.entity";
+import { RequestProgramService } from "../request-program/request-program.service";
+import { RequestProgram } from "../request-program/entities/request-program.entity";
 
 @Module({
-    imports: [TypeOrmModule.forFeature([Passport, Request, Project, CustomerCompany, CustomerUser, Course, Tag, Period, Student, Program]), SSEModule],
+    imports: [
+        TypeOrmModule.forFeature([
+            Passport,
+            Request,
+            Project,
+            CustomerCompany,
+            CustomerUser,
+            Course,
+            Tag,
+            Period,
+            Student,
+            Program,
+            RequestProgram,
+        ]),
+        SSEModule,
+    ],
     controllers: [AnalyticController],
-    providers: [AnalyticService, PartnerService, PassportService, ProjectService, ProgramService, RequestService, CustomerCompanyService, CustomerUserService, PeriodService, StudentService],
+    providers: [
+        AnalyticService,
+        PartnerService,
+        PassportService,
+        ProjectService,
+        ProgramService,
+        RequestService,
+        CustomerCompanyService,
+        CustomerUserService,
+        PeriodService,
+        StudentService,
+        RequestProgramService,
+    ],
 })
-export class AnalyticModule {
-}
+export class AnalyticModule {}

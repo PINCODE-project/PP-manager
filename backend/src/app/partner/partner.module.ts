@@ -1,6 +1,6 @@
-import { Module } from '@nestjs/common';
-import { PartnerService } from './partner.service';
-import { PartnerController } from './partner.controller';
+import { Module } from "@nestjs/common";
+import { PartnerService } from "./partner.service";
+import { PartnerController } from "./partner.controller";
 import { PassportService } from "../passport/passport.service";
 import { TypeOrmModule } from "@nestjs/typeorm";
 import { Passport } from "../passport/entities/passport.entity";
@@ -18,11 +18,35 @@ import { Period } from "../period/entities/period.entity";
 import { SSEModule } from "../sse/sse.module";
 import { Program } from "../program/entities/program.entity";
 import { ProgramService } from "../program/program.service";
+import { RequestProgramService } from "../request-program/request-program.service";
+import { RequestProgram } from "../request-program/entities/request-program.entity";
 
 @Module({
-    imports: [TypeOrmModule.forFeature([Passport, Request, CustomerCompany, CustomerUser, Course, Tag, Period, Program]), SSEModule],
+    imports: [
+        TypeOrmModule.forFeature([
+            Passport,
+            Request,
+            CustomerCompany,
+            CustomerUser,
+            Course,
+            Tag,
+            Period,
+            Program,
+            RequestProgram,
+        ]),
+        SSEModule,
+    ],
     controllers: [PartnerController],
-    providers: [PartnerService, PassportService, ProgramService, RequestService, CourseService, CustomerCompanyService, CustomerUserService, PeriodService],
+    providers: [
+        PartnerService,
+        PassportService,
+        ProgramService,
+        RequestProgramService,
+        RequestService,
+        CourseService,
+        CustomerCompanyService,
+        CustomerUserService,
+        PeriodService,
+    ],
 })
-export class PartnerModule {
-}
+export class PartnerModule {}

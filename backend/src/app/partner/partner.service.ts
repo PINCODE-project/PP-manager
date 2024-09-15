@@ -28,6 +28,7 @@ import { SSEEnum } from "../sse/interfaces/sse-service.interface";
 import { SSEService } from "../sse/sse.service";
 import { ProgramService } from "../program/program.service";
 import { ProgramMappers } from "../program/mappers/program.mappers";
+import { RequestProgramService } from "../request-program/request-program.service";
 
 const XLSX = require("xlsx");
 const JS_XLSX = require("js-xlsx");
@@ -45,6 +46,7 @@ export class PartnerService {
         private readonly configService: ConfigService,
         private readonly periodService: PeriodService,
         private readonly programService: ProgramService,
+        private readonly requestProgramService: RequestProgramService,
         private readonly sseService: SSEService,
     ) {}
 
@@ -148,6 +150,16 @@ export class PartnerService {
                         token: tokens.token,
                         id: request.id,
                     });
+
+                    for (let program of currentRequest.programs) {
+                        if (!(await this.requestProgramService.isCreate(currentRequest.id, program.program.id))) {
+                            // Программы для заявки не существует
+                            await this.requestProgramService.create({
+                                requestId: currentRequest.id,
+                                programId: program.program.id,
+                            });
+                        }
+                    }
 
                     if (!(await this.customerCompanyService.isCreate(currentRequest.partner.id))) {
                         // Компании заказчика не существует
@@ -255,6 +267,19 @@ export class PartnerService {
                     this.logger.log(`${j}/${passportsCount} passports`);
                     j += 1;
                     this.logger.log("Parse passport " + passport.id + " {");
+
+                    for (let program of currentPassport.programs) {
+                        if (!(await this.requestProgramService.isCreate(currentRequest.id, program.program.id))) {
+                            // Программы для заявки не существует
+
+                            const result = await this.requestProgramService.create({
+                                requestId: currentRequest.id,
+                                programId: program.id,
+                            });
+                            this.logger.log("\tCreate request program: (id:" + result.requestProgramID + ")");
+                        }
+                    }
+
                     if (!(await this.customerCompanyService.isCreate(currentRequest.partner.id))) {
                         // Компании заказчика не существует
                         this.logger.log("\tCreate customer company: (id:" + currentRequest.partner.id + ")");
