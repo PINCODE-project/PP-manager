@@ -330,6 +330,7 @@ export function PartnersRequestsPage() {
                                     (period) => period.year === year && period.term === term,
                                 ).id
                             }
+                            programs={selectedPrograms}
                         />
                     ) }
                     <Button onClick={ () => setIsSettingsTableOpen(true) } >

@@ -6,37 +6,47 @@ import API from "../../../../api/API";
 import { createRequestReport } from "../../../../store/slices/requestsSlice";
 
 export default function ExportRequestButton(props) {
-  const navigate = useNavigate();
-  const { message } = App.useApp();
-  const dispatch = useDispatch();
+    const navigate = useNavigate();
+    const { message } = App.useApp();
+    const dispatch = useDispatch();
 
-  const [isLoading, setIsLoading] = useState(false);
+    const [isLoading, setIsLoading] = useState(false);
 
-  const getReport = (payload) => {
-    if (!isLoading) {
-      setIsLoading(true);
+    const getReport = (payload) => {
+        if (!isLoading) {
+            setIsLoading(true);
+            message.open({
+                key: "exportRequest",
+                type: 'loading',
+                content: 'Экспортирую...',
+                duration: 0,
+            });
+            dispatch(
+                createRequestReport({
+                    periodId: props.periodId,
+                    programs: props.programs,
+                }),
+            ).then(
+                (response) => {
+                    console.log(response);
+                    setIsLoading(false);
+                    message.open({
+                        key: "exportRequest",
+                        type: 'success',
+                        content: 'Отчёт успешно сформирован!',
+                    });
+                    window.open(
+                        `${ API.GET_REPORT }${ response.payload.reportFile }`,
+                        "rel=noopener noreferrer",
+                    );
+                },
+                (error) => {
+                    setIsLoading(false);
+                    message.error({ content: error.message });
+                },
+            );
+        }
+    };
 
-      dispatch(
-        createRequestReport({
-          periodId: props.periodId,
-        }),
-      ).then(
-        (response) => {
-          console.log(response);
-          setIsLoading(false);
-          message.success({ content: "Отчёт успешно сформирован!" });
-          window.open(
-            `${API.GET_REPORT}${response.payload.reportFile}`,
-            "rel=noopener noreferrer",
-          );
-        },
-        (error) => {
-          setIsLoading(false);
-          message.error({ content: error.message });
-        },
-      );
-    }
-  };
-
-  return <Button onClick={getReport}>Экспортировать</Button>;
+    return <Button onClick={ getReport } >Экспортировать</Button >;
 }

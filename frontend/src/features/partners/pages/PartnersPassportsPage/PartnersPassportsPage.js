@@ -284,6 +284,7 @@ export function PartnersPassportsPage() {
                                     (period) => period.year === year && period.term === term,
                                 ).id
                             }
+                            programs={selectedPrograms}
                         />
                     ) }
                     <Button onClick={ () => setIsSettingsTableOpen(true) } >
