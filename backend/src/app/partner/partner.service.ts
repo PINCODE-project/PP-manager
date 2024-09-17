@@ -574,6 +574,14 @@ export class PartnerService {
             },
             G1: {
                 t: "s",
+                v: "Заказчик",
+            },
+            H1: {
+                t: "s",
+                v: "Представитель заказчика",
+            },
+            I1: {
+                t: "s",
                 v: "Ссылка",
             },
         };
@@ -598,6 +606,19 @@ export class PartnerService {
                 v: htmlToText(request.status),
             };
             requestsSheet["G" + (index + 2)] = {
+                t: "s",
+                v: htmlToText(request.customer_user.customer_company.name),
+            };
+            requestsSheet["H" + (index + 2)] = {
+                t: "s",
+                v:
+                    (request.customer_user.last_name || "") +
+                    " " +
+                    (request.customer_user.first_name || "") +
+                    " " +
+                    (request.customer_user.middle_name || ""),
+            };
+            requestsSheet["I" + (index + 2)] = {
                 t: "s",
                 v: "https://partner.urfu.ru/ptraining/services/learning/#/requests/" + request.id,
             };
