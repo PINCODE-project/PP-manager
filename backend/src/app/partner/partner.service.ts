@@ -547,7 +547,7 @@ export class PartnerService {
         let workbook = XLSX.utils.book_new();
 
         let requestsSheet = {
-            "!ref": "A1:G" + (requests.length + 1), // Sheet Range (Which cells will be included in the output)
+            "!ref": "A1:I" + (requests.length + 1), // Sheet Range (Which cells will be included in the output)
             A1: {
                 t: "s",
                 v: "Номер заявки",
