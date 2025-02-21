@@ -18,6 +18,7 @@ export class PeriodController {
     }
 
     @ApiOperation({ summary: "Получение всех семестров" })
+    @ApiBearerAuth()
     @Get("all")
     @UseGuards(JwtAuthGuard)
     findAll() {
