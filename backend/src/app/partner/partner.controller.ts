@@ -5,7 +5,6 @@ import { JwtAuthGuard } from "../auth/guards/jwt-auth.guard";
 import { ParsePassportDto } from "./dto/parse-passport.dto";
 import { ApiBearerAuth, ApiTags } from "@nestjs/swagger";
 import { ParseRequestsDto } from "./dto/parse-requests.dto";
-import { CreateReportDto } from "../teamproject/dto/create-report.dto";
 import { CreateRequestReportDto } from "./dto/create-request-report.dto";
 import { CreatePassportReportDto } from "./dto/create-passport-report.dto";
 

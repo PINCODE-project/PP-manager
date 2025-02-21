@@ -80,7 +80,7 @@ export default function RequestParseModal(props) {
                     label="Семестр"
                 >
                     <Select
-                        defaultValue={ 1 }
+                        defaultValue={ 2 }
                         className={ styles.select }
                         onChange={ handleChangeTerm }
                         options={ [
