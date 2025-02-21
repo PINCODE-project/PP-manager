@@ -6,9 +6,9 @@ export class ParsePassportDto {
     @IsString()
     token: string;
 
-    @ApiProperty()
-    @IsString()
-    session_cookie: string;
+    // @ApiProperty()
+    // @IsString()
+    // session_cookie: string;
 
     @ApiProperty()
     id?: number;

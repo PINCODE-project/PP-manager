@@ -67,13 +67,13 @@ export class PartnerService {
             await driver.findElement(By.id("kc-login")).click();
             await driver.sleep(5000);
             const key = await driver.manage().getCookie("key");
-            const session = await driver.manage().getCookie("session-cookie");
+            // const session = await driver.manage().getCookie("session-cookie");
             this.logger.log(`\ttoken: ${key.value}`);
-            this.logger.log(`\tsession_cookie: ${session.value}`);
+            // this.logger.log(`\tsession_cookie: ${session.value}`);
             this.logger.log(`}`);
             return {
                 token: key.value,
-                session_cookie: session.value,
+                // session_cookie: session.value,
             };
         } catch (error) {
             console.error("Failed to open website:", error);
@@ -107,7 +107,8 @@ export class PartnerService {
         let tokens = await this.getTokens();
 
         let myHeaders = new Headers();
-        myHeaders.append("Cookie", `session-cookie=${tokens.session_cookie};key=${tokens.token}`);
+        // myHeaders.append("Cookie", `session-cookie=${tokens.session_cookie};key=${tokens.token}`);
+        myHeaders.append("Cookie", `key=${tokens.token}`);
 
         let requestOptions: RequestInit = {
             method: "GET",
@@ -119,7 +120,7 @@ export class PartnerService {
         let period = await this.periodService.findOne(parseRequestsDto.period_id);
 
         let count = await this.getRequestsPagesCount({
-            session_cookie: tokens.session_cookie,
+            // session_cookie: tokens.session_cookie ?? "",
             token: tokens.token,
             semester: period.year + "-" + (period.term - 1),
         });
@@ -150,7 +151,7 @@ export class PartnerService {
                     this.logger.log(`${j}/${count.requestsCount} request`);
                     this.logger.log("Parse request " + request.id + " {");
                     let currentRequest = await this.parseRequest({
-                        session_cookie: tokens.session_cookie,
+                        // session_cookie: tokens.session_cookie,
                         token: tokens.token,
                         id: request.id,
                     });
@@ -222,7 +223,8 @@ export class PartnerService {
         let tokens = await this.getTokens();
 
         let myHeaders = new Headers();
-        myHeaders.append("Cookie", "session-cookie=" + tokens.session_cookie + ";key=" + tokens.token);
+        myHeaders.append("Cookie", "key=" + tokens.token);
+        // myHeaders.append("Cookie", "session-cookie=" + tokens.session_cookie + ";key=" + tokens.token);
 
         let requestOptions: RequestInit = {
             method: "GET",
@@ -235,7 +237,7 @@ export class PartnerService {
 
         let { pagesCount, passportsCount } = await this.getPassportsPagesCount({
             token: tokens.token,
-            session_cookie: tokens.session_cookie,
+            // session_cookie: tokens.session_cookie,
             semester: period.year + "-" + (period.term - 1),
         });
 
@@ -266,12 +268,12 @@ export class PartnerService {
                 for (let passport of currentPassports.results) {
                     let currentPassport = await this.parsePassport({
                         token: tokens.token,
-                        session_cookie: tokens.session_cookie,
+                        // session_cookie: tokens.session_cookie,
                         id: passport.id,
                     });
                     let currentRequest = await this.parseRequest({
                         token: tokens.token,
-                        session_cookie: tokens.session_cookie,
+                        // session_cookie: tokens.session_cookie,
                         id: currentPassport.source?.id || currentPassport.id,
                     });
                     this.logger.log(`${j}/${passportsCount} passports`);
@@ -355,7 +357,8 @@ export class PartnerService {
         let myHeaders = new Headers();
         myHeaders.append(
             "Cookie",
-            "session-cookie=" + getRequestsPagesCountDto.session_cookie + ";key=" + getRequestsPagesCountDto.token,
+            "key=" + getRequestsPagesCountDto.token,
+            // "session-cookie=" + getRequestsPagesCountDto.session_cookie + ";key=" + getRequestsPagesCountDto.token,
         );
 
         let requestOptions: RequestInit = {
@@ -388,7 +391,8 @@ export class PartnerService {
         let myHeaders = new Headers();
         myHeaders.append(
             "Cookie",
-            "session-cookie=" + getPassportsPagesCountDto.session_cookie + ";key=" + getPassportsPagesCountDto.token,
+            "key=" + getPassportsPagesCountDto.token,
+            // "session-cookie=" + getPassportsPagesCountDto.session_cookie + ";key=" + getPassportsPagesCountDto.token,
         );
 
         let requestOptions: RequestInit = {
@@ -419,7 +423,8 @@ export class PartnerService {
         let myHeaders = new Headers();
         myHeaders.append(
             "Cookie",
-            "session-cookie=" + parsePassportDto.session_cookie + ";key=" + parsePassportDto.token,
+            "key=" + parsePassportDto.token,
+            // "session-cookie=" + parsePassportDto.session_cookie + ";key=" + parsePassportDto.token,
         );
 
         let requestOptions: RequestInit = {
@@ -450,7 +455,8 @@ export class PartnerService {
         let myHeaders = new Headers();
         myHeaders.append(
             "Cookie",
-            "session-cookie=" + parsePassportDto.session_cookie + ";key=" + parsePassportDto.token,
+            "key=" + parsePassportDto.token,
+            // "session-cookie=" + parsePassportDto.session_cookie + ";key=" + parsePassportDto.token,
         );
 
         let requestOptions: RequestInit = {
@@ -516,7 +522,8 @@ export class PartnerService {
         let myHeaders = new Headers();
         myHeaders.append(
             "Cookie",
-            "session-cookie=" + parseRequestDto.session_cookie + ";key=" + parseRequestDto.token,
+            "key=" + parseRequestDto.token,
+            // "session-cookie=" + parseRequestDto.session_cookie + ";key=" + parseRequestDto.token,
         );
 
         let requestOptions: RequestInit = {
