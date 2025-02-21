@@ -100,7 +100,7 @@ export function PartnersRequestsPage() {
     );
 
     const [year, setYear] = useState(2024);
-    const [term, setTerm] = useState(1);
+    const [term, setTerm] = useState(2);
     const [selectedPrograms, setPrograms] = useState([]);
     const [debSelectedPrograms, setDebPrograms] = useDebouncedState([], 2000);
 

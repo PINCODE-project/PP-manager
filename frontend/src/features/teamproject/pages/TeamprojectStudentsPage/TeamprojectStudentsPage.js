@@ -78,7 +78,7 @@ export function TeamprojectStudentsPage() {
     )
 
     const [year, setYear] = useState(2024)
-    const [term, setTerm] = useState(1)
+    const [term, setTerm] = useState(2)
 
     const handleChangeYear = (value) => {
         setYear(value)

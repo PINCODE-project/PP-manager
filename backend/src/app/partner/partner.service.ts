@@ -146,6 +146,8 @@ export class PartnerService {
 
                 let currentRequests = await currentRequestsResponse.json();
 
+                console.log(currentRequests);
+
                 for (let request of currentRequests.results) {
                     j += 1;
                     this.logger.log(`${j}/${count.requestsCount} request`);

@@ -15,8 +15,8 @@ export default function ParseModal(props) {
     const dispatch = useDispatch();
     const [isLoading, setIsLoading] = useState(false);
     const [token, setToken] = useState(localStorage.getItem("PP-analyze-bearer") || "")
-    const [year, setYear] = useState(2023)
-    const [term, setTerm] = useState(1)
+    const [year, setYear] = useState(2024)
+    const [term, setTerm] = useState(2)
     const [percent, setPercent] = useState(0)
 
     const periods = usePeriods()
