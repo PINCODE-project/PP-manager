@@ -551,10 +551,12 @@ export class PartnerService {
             programs: dto.programs,
         });
 
+        console.log(requests);
+
         let workbook = XLSX.utils.book_new();
 
         let requestsSheet = {
-            "!ref": "A1:I" + (requests.length + 1), // Sheet Range (Which cells will be included in the output)
+            "!ref": "A1:J" + (requests.length + 1), // Sheet Range (Which cells will be included in the output)
             A1: {
                 t: "s",
                 v: "Номер заявки",
@@ -588,6 +590,10 @@ export class PartnerService {
                 v: "Представитель заказчика",
             },
             I1: {
+                t: "s",
+                v: "Количество паспортов",
+            },
+            J1: {
                 t: "s",
                 v: "Ссылка",
             },
@@ -626,6 +632,10 @@ export class PartnerService {
                     (request.customer_user.middle_name || ""),
             };
             requestsSheet["I" + (index + 2)] = {
+                t: "s",
+                v: request.passports.length,
+            };
+            requestsSheet["J" + (index + 2)] = {
                 t: "s",
                 v: "https://partner.urfu.ru/ptraining/services/learning/#/requests/" + request.id,
             };
