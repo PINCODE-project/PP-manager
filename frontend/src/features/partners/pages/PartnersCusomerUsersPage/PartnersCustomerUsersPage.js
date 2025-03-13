@@ -115,7 +115,7 @@ export function PartnersCustomerUsersPage() {
                     />
 
                     <Select
-                        defaultValue={1}
+                        defaultValue={2}
                         onChange={handleChangeTerm}
                         options={[
                             {value: 1, label: 'Осенний'},
