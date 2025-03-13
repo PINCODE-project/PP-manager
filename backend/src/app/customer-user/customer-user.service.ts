@@ -76,30 +76,15 @@ export class CustomerUserService {
         });
     }
 
-    async findAll(findAllCustomerCompanyDto: FindAllCustomerUserDto) {
-        const customerUsers = await this.customerUserRepository.find({
-            // where: {request: {period_id: {id: findAllCustomerCompanyDto.period_id}}},
-            // select: {
-            //     id: true,
-            //     passport: true,
-            //     name: true,
-            //     students: true,
-            //     curator: true,
-            //     year: true,
-            //     term: true,
-            //     isHaveReport: true,
-            //     isHavePresentation: true,
-            //     comissionScore: true,
-            //     status: true,
-            //     updated_at: true
-            // },
-            relations: {
-                requests: {
-                    passports: true,
-                },
-                customer_company: true,
-            },
-        });
+    async findAll(dto: FindAllCustomerUserDto) {
+        const customerUsers = await this.customerUserRepository
+            .createQueryBuilder("customerUser")
+            .innerJoinAndSelect("customerUser.requests", "request", "request.period_id = :periodId", {
+                periodId: dto.period_id,
+            })
+            .leftJoinAndSelect("request.passports", "passport")
+            .leftJoinAndSelect("customerUser.customer_company", "customerCompany")
+            .getMany();
 
         return customerUsers;
     }
