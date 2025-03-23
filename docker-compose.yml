@@ -2,6 +2,7 @@ version: '3.8'
 
 services:
   pp_manager_server:
+    container_name: backend-pp-manager
     build:
       context: ./backend
       dockerfile: Dockerfile
