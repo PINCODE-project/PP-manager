@@ -24,7 +24,7 @@ async function bootstrap() {
     swaggerDocumentBuilder.setupSwagger();
 
     await app.listen(9002);
-    logger.log(`🚀 ${configService.getOrThrow("APP_NAME")} service started successfully on port ${port}`);
+    // logger.log(`🚀 ${configService.getOrThrow("APP_NAME")} service started successfully on port ${port}`);
 }
 
 bootstrap();
