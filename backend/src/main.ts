@@ -23,7 +23,8 @@ async function bootstrap() {
     const swaggerDocumentBuilder = new SwaggerDocumentBuilder(app);
     swaggerDocumentBuilder.setupSwagger();
 
-    await app.listen(5000);
+    await app.listen(9002);
+    logger.log(`🚀 ${configService.getOrThrow("APP_NAME")} service started successfully on port ${port}`);
 }
 
 bootstrap();
