@@ -49,7 +49,7 @@ export class TeamprojectService {
         let period = await this.periodService.findOne(parseProjectsDto.period_id);
 
         let localProjects = await fetch(
-            "https://teamproject.urfu.ru/api/v2/workspaces?status=any&year=" +
+            "https://teamproject.urfu.ru/api/v2/catalog?status=any&year=" +
                 period.year +
                 "&semester=" +
                 period.term +
