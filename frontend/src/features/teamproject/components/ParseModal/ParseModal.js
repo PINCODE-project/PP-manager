@@ -15,8 +15,8 @@ export default function ParseModal(props) {
     const dispatch = useDispatch();
     const [isLoading, setIsLoading] = useState(false);
     const [token, setToken] = useState(localStorage.getItem("PP-analyze-bearer") || "")
-    const [year, setYear] = useState(2024)
-    const [term, setTerm] = useState(2)
+    const [year, setYear] = useState(2025)
+    const [term, setTerm] = useState(1)
     const [percent, setPercent] = useState(0)
 
     const periods = usePeriods()
@@ -80,10 +80,11 @@ export default function ParseModal(props) {
                     label="Год"
                 >
                     <Select
-                        defaultValue={2023}
+                        defaultValue={2025}
                         className={styles.select}
                         onChange={handleChangeYear}
                         options={[
+                            {value: 2025, label: '2025/2026'},
                             {value: 2024, label: '2024/2025'},
                             {value: 2023, label: '2023/2024'},
                             {value: 2022, label: '2022/2023'},

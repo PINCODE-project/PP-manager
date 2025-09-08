@@ -13,8 +13,8 @@ export default function PassportParseModal(props) {
     const dispatch = useDispatch();
     const [isLoading, setIsLoading] = useState(false);
     const [token, setToken] = useState(localStorage.getItem("PP-analyze-bearer") || "")
-    const [year, setYear] = useState(2024)
-    const [term, setTerm] = useState(2)
+    const [year, setYear] = useState(2025)
+    const [term, setTerm] = useState(1)
     const [percent, setPercent] = useState(0)
 
     const periods = usePeriods()
@@ -65,7 +65,7 @@ export default function PassportParseModal(props) {
                     label="Год"
                 >
                     <Select
-                        defaultValue={2024}
+                        defaultValue={2025}
                         className={styles.select}
                         onChange={handleChangeYear}
                         options={

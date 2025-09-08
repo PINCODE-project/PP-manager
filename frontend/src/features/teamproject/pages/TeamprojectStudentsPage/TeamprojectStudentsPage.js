@@ -77,8 +77,8 @@ export function TeamprojectStudentsPage() {
         initialStudentsTableColumns
     )
 
-    const [year, setYear] = useState(2024)
-    const [term, setTerm] = useState(2)
+    const [year, setYear] = useState(2025)
+    const [term, setTerm] = useState(1)
 
     const handleChangeYear = (value) => {
         setYear(value)
@@ -139,7 +139,7 @@ export function TeamprojectStudentsPage() {
             <div className={styles.header}>
                 <div className={styles.filters}>
                     <Select
-                        defaultValue={2024}
+                        defaultValue={2025}
                         onChange={handleChangeYear}
                         options={
                             [...new Set(periods.periods.map(period => period.year))].map(year => ({
