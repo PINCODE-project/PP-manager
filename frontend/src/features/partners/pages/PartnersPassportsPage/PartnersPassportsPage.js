@@ -1,5 +1,4 @@
 import SideBar from "../../../../components/SideBar/SideBar";
-import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import React, { useEffect, useState } from "react";
 import { App, Button, Select, Spin, Tag } from "antd";
@@ -97,7 +96,6 @@ export const initialPassportsTableColumns = [
 ];
 
 export function PartnersPassportsPage() {
-    const navigate = useNavigate();
     const dispatch = useDispatch();
     const { message } = App.useApp();
 
@@ -152,9 +150,9 @@ export function PartnersPassportsPage() {
             unauthorizedHandler(error, dispatch, message),
         );
         dispatch(getAllPrograms()).then((resp) => {
-            const bak = resp.payload.filter(program => program.program_level === "LBAK").map(program => program.program_id)
-            setDebPrograms(bak)
-            setPrograms(bak)
+            const bak = resp.payload.filter(program => program.program_level === "LBAK").map(program => program.program_id);
+            setDebPrograms(bak);
+            setPrograms(bak);
         }).catch((error) =>
             unauthorizedHandler(error, dispatch, message),
         );
@@ -204,8 +202,8 @@ export function PartnersPassportsPage() {
                 passport.request.customer_user.customer_company.name,
                 tags: passport.request.tags,
                 is_visible: passport.is_visible,
-                programs: passport.request.programs.map((program) => program.program),
-                programs_search: passport.request.programs.map((program) => `${program.program.uid} ${program.program.name}`).join(" "),
+                programs: passport.programs.map((program) => program.program),
+                programs_search: passport.programs.map((program) => `${ program.program.uid } ${ program.program.name }`).join(" "),
             })),
         );
     }, [passports]);
@@ -239,35 +237,35 @@ export function PartnersPassportsPage() {
 
                     <Select
                         mode="multiple"
-                        style={{width: "300px"}}
+                        style={ { width: "300px" } }
                         onChange={ handleChangePrograms }
-                        disabled={programs.isLoading}
-                        value={selectedPrograms}
-                        options={[
+                        disabled={ programs.isLoading }
+                        value={ selectedPrograms }
+                        options={ [
                             {
-                                label: <span>Бакалавриат</span>,
-                                title: 'Бакалавриат',
+                                label: <span >Бакалавриат</span >,
+                                title: "Бакалавриат",
                                 options: programs.isLoading ? [] : programs.programs.filter(program => program.program_level === "LBAK").map((program) => (
                                     {
                                         value: program.program_id,
-                                        label: `${program.program_uid} ${program.program_name}`,
+                                        label: `${ program.program_uid } ${ program.program_name }`,
                                     }
                                 )),
                             },
                             {
-                                label: <span>Магистратура</span>,
-                                title: 'Магистратура',
+                                label: <span >Магистратура</span >,
+                                title: "Магистратура",
                                 options: programs.isLoading ? [] : programs.programs.filter(program => program.program_level === "LMAG").map((program) => (
                                     {
                                         value: program.program_id,
-                                        label: `${program.program_uid} ${program.program_name}`,
+                                        label: `${ program.program_uid } ${ program.program_name }`,
                                     }
                                 )),
                             },
-                        ]}
-                        maxTagCount={1}
+                        ] }
+                        maxTagCount={ 1 }
                         placeholder="Образовательные программы"
-                        tagRender={ () => <Tag>Образовательные программы</Tag > }
+                        tagRender={ () => <Tag >Образовательные программы</Tag > }
                         optionFilterProp="label"
                         allowClear
                     />
@@ -284,7 +282,7 @@ export function PartnersPassportsPage() {
                                     (period) => period.year === year && period.term === term,
                                 ).id
                             }
-                            programs={selectedPrograms}
+                            programs={ selectedPrograms }
                         />
                     ) }
                     <Button onClick={ () => setIsSettingsTableOpen(true) } >

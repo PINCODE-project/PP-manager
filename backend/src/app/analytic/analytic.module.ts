@@ -24,6 +24,8 @@ import { ProgramService } from "../program/program.service";
 import { Program } from "../program/entities/program.entity";
 import { RequestProgramService } from "../request-program/request-program.service";
 import { RequestProgram } from "../request-program/entities/request-program.entity";
+import { PassportProgram } from "../passport-program/entities/passport-program.entity";
+import { PassportProgramService } from "../passport-program/passport-program.service";
 
 @Module({
     imports: [
@@ -39,6 +41,7 @@ import { RequestProgram } from "../request-program/entities/request-program.enti
             Student,
             Program,
             RequestProgram,
+            PassportProgram,
         ]),
         SSEModule,
     ],
@@ -55,6 +58,7 @@ import { RequestProgram } from "../request-program/entities/request-program.enti
         PeriodService,
         StudentService,
         RequestProgramService,
+        PassportProgramService,
     ],
 })
 export class AnalyticModule {}

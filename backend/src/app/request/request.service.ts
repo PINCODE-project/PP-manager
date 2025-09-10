@@ -6,12 +6,15 @@ import { Request } from "./entities/request.entity";
 import { UpdateRequestDto } from "./dto/update-request.dto";
 import { Tag } from "../tag/entities/tag.entity";
 import { FindAllRequestsDto } from "./dto/find-all-requests.dto";
+import { Passport } from "../passport/entities/passport.entity";
 
 @Injectable()
 export class RequestService {
     constructor(
         @InjectRepository(Request)
         private readonly requestRepository: Repository<Request>,
+        @InjectRepository(Passport)
+        private readonly passportRepository: Repository<Passport>,
         @InjectRepository(Tag)
         private readonly tagRepository: Repository<Tag>,
     ) {}
@@ -91,6 +94,83 @@ export class RequestService {
         return this.requestRepository.findOne({
             where: { id },
         });
+    }
+
+    async findConflicts(dto: FindAllRequestsDto) {
+        const requests = await this.requestRepository.find({
+            where: {
+                period_id: { id: dto.period_id },
+            },
+            relations: {
+                track: true,
+                tags: true,
+                period_id: true,
+                customer_user: {
+                    customer_company: true,
+                },
+                programs: {
+                    program: true,
+                },
+                passports: {
+                    programs: {
+                        program: true,
+                    },
+                },
+            },
+        });
+
+        const shesterovIds = [20, 24, 26];
+
+        const requestsWithoutShesterov: typeof requests = [];
+        const requestsWithMixed: typeof requests = [];
+
+        for (const request of requests) {
+            let pushToWithout = false;
+            let pushToMixed = false;
+
+            const newPassports = request.passports
+                .map((passport) => {
+                    const programs = passport.programs;
+
+                    const hasShesterov = programs.some((p) => shesterovIds.includes(p.program.id));
+                    const hasOther = programs.some((p) => !shesterovIds.includes(p.program.id));
+
+                    if (hasOther && !hasShesterov) {
+                        // только НЕ шестерова → попадёт в "without"
+                        pushToWithout = true;
+                        return {
+                            ...passport,
+                            programs: programs.filter((p) => !shesterovIds.includes(p.program.id)),
+                        };
+                    }
+
+                    if (hasShesterov && hasOther) {
+                        // смешанные → попадут в "mixed"
+                        pushToMixed = true;
+                        return { ...passport, programs };
+                    }
+
+                    // если только шестерова → не добавляем в оба массива
+                    return null;
+                })
+                .filter(Boolean);
+
+            if (pushToWithout) {
+                requestsWithoutShesterov.push({
+                    ...request,
+                    passports: newPassports,
+                });
+            }
+
+            if (pushToMixed) {
+                requestsWithMixed.push({
+                    ...request,
+                    passports: newPassports,
+                });
+            }
+        }
+
+        return { requestsWithoutShesterov, requestsWithMixed };
     }
 
     async findAll(findAllRequestsDto: FindAllRequestsDto) {

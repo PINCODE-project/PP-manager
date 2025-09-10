@@ -1,6 +1,7 @@
 import { Column, Entity, JoinColumn, OneToMany, PrimaryColumn } from "typeorm";
 import { ApiProperty } from "@nestjs/swagger";
 import { RequestProgram } from "../../request-program/entities/request-program.entity";
+import { PassportProgram } from "../../passport-program/entities/passport-program.entity";
 
 @Entity()
 export class Program {
@@ -44,4 +45,8 @@ export class Program {
     @OneToMany(() => RequestProgram, (requestProgram) => requestProgram.request, { nullable: true })
     @JoinColumn({ name: "request_program" })
     requests: RequestProgram[];
+
+    @OneToMany(() => PassportProgram, (passportProgram) => passportProgram.passport, { nullable: true })
+    @JoinColumn({ name: "passport_program" })
+    passports: PassportProgram[];
 }

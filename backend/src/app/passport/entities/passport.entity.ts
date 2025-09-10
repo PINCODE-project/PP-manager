@@ -13,6 +13,8 @@ import { Course } from "../../course/entities/course.entity";
 import { Request } from "../../request/entities/request.entity";
 import { Project } from "../../project/entities/project.entity";
 import { ApiProperty } from "@nestjs/swagger";
+import { RequestProgram } from "../../request-program/entities/request-program.entity";
+import { PassportProgram } from "../../passport-program/entities/passport-program.entity";
 
 @Entity()
 export class Passport {
@@ -76,4 +78,8 @@ export class Passport {
         },
     })
     course: Course[];
+
+    @OneToMany(() => PassportProgram, (passportProgram) => passportProgram.passport, { nullable: true })
+    @JoinColumn({ name: "programs" })
+    programs: PassportProgram[];
 }

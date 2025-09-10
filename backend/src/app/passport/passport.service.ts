@@ -116,6 +116,9 @@ export class PassportService {
                     },
                 },
                 course: true,
+                programs: {
+                    program: true,
+                },
             },
         });
 
@@ -175,6 +178,9 @@ export class PassportService {
                     },
                 },
                 course: true,
+                programs: {
+                    program: true,
+                },
             },
         });
 
@@ -198,6 +204,9 @@ export class PassportService {
                     },
                 },
                 course: true,
+                programs: {
+                    program: true,
+                },
             },
         });
 

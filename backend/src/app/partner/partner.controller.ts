@@ -41,6 +41,13 @@ export class PartnerController {
     createRequestReport(@Body() createRequestReportDto: CreateRequestReportDto) {
         return this.partnerService.createRequestReport(createRequestReportDto);
     }
+    @ApiBearerAuth()
+    @Post("request-conflict/report")
+    @UsePipes(new ValidationPipe())
+    @UseGuards(JwtAuthGuard)
+    createRequestConflictReport(@Body() dto: CreateRequestReportDto) {
+        return this.partnerService.createRequestConflictReport(dto);
+    }
 
     @ApiBearerAuth()
     @Post("passport/report")

@@ -20,6 +20,8 @@ import { Program } from "../program/entities/program.entity";
 import { ProgramService } from "../program/program.service";
 import { RequestProgramService } from "../request-program/request-program.service";
 import { RequestProgram } from "../request-program/entities/request-program.entity";
+import { PassportProgramService } from "../passport-program/passport-program.service";
+import { PassportProgram } from "../passport-program/entities/passport-program.entity";
 
 @Module({
     imports: [
@@ -33,6 +35,7 @@ import { RequestProgram } from "../request-program/entities/request-program.enti
             Period,
             Program,
             RequestProgram,
+            PassportProgram,
         ]),
         SSEModule,
     ],
@@ -42,6 +45,7 @@ import { RequestProgram } from "../request-program/entities/request-program.enti
         PassportService,
         ProgramService,
         RequestProgramService,
+        PassportProgramService,
         RequestService,
         CourseService,
         CustomerCompanyService,

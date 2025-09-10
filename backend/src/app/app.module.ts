@@ -27,6 +27,7 @@ import { ServeStaticModule } from "@nestjs/serve-static";
 import { SSEModule } from "./sse/sse.module";
 import { ProgramModule } from "./program/program.module";
 import { RequestProgramModule } from "./request-program/request-program.module";
+import { PassportProgramModule } from "./passport-program/passport-program.module";
 
 @Module({
     imports: [
@@ -72,6 +73,7 @@ import { RequestProgramModule } from "./request-program/request-program.module";
         SSEModule,
         ProgramModule,
         RequestProgramModule,
+        PassportProgramModule,
     ],
     controllers: [AppController],
     providers: [AppService],

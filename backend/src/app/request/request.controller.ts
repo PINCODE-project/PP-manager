@@ -29,6 +29,13 @@ export class RequestController {
     }
 
     @ApiBearerAuth()
+    @Post("/conflicts")
+    @UseGuards(JwtAuthGuard)
+    findConflicts(@Body() dto: FindAllRequestsDto) {
+        return this.requestService.findConflicts(dto);
+    }
+
+    @ApiBearerAuth()
     @Patch(":id")
     @UseGuards(JwtAuthGuard)
     update(@Param("id", ParseIntPipe) id: number, @Body() updateRequestDto: UpdateRequestDto) {

@@ -33,7 +33,7 @@ export class RequestProgramController {
     // }
     //
     // @Patch(":id")
-    // update(@Param("id") id: string, @Body() updateRequestProgramDto: UpdateRequestProgramDto) {
+    // update(@Param("id") id: string, @Body() updateRequestProgramDto: UpdatePassportProgramDto) {
     //     return this.requestProgramService.update(+id, updateRequestProgramDto);
     // }
     //

@@ -10,16 +10,6 @@ async function bootstrap() {
     app.setGlobalPrefix("api");
     app.enableCors();
 
-    app.use(
-        "/core/docs*",
-        basicAuth({
-            challenge: true,
-            users: {
-                Admin: "P@ssw0rd",
-            },
-        }),
-    );
-
     const swaggerDocumentBuilder = new SwaggerDocumentBuilder(app);
     swaggerDocumentBuilder.setupSwagger();
 

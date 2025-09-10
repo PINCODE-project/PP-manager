@@ -32,6 +32,7 @@ import { RequestProgramService } from "../request-program/request-program.servic
 import { v4 as uuidv4 } from "uuid";
 import { CreateRequestReportDto } from "./dto/create-request-report.dto";
 import { CreatePassportReportDto } from "./dto/create-passport-report.dto";
+import { PassportProgramService } from "../passport-program/passport-program.service";
 
 const XLSX = require("xlsx");
 const JS_XLSX = require("js-xlsx");
@@ -50,6 +51,7 @@ export class PartnerService {
         private readonly periodService: PeriodService,
         private readonly programService: ProgramService,
         private readonly requestProgramService: RequestProgramService,
+        private readonly passportProgramService: PassportProgramService,
         private readonly sseService: SSEService,
     ) {}
 
@@ -317,21 +319,6 @@ export class PartnerService {
                         await this.requestService.update(currentRequest.id, RequestMappers.toUpdateDto(currentRequest));
                     }
 
-                    for (let program of currentPassport.programs) {
-                        if (!(await this.requestProgramService.isCreate(currentRequest.id, program.program.id))) {
-                            // Программы для заявки не существует
-                            if (await this.programService.isCreate(program.program.id)) {
-                                const requestProgram = await this.requestProgramService.create({
-                                    requestId: currentRequest.id,
-                                    programId: program.program.id,
-                                });
-                                this.logger.log(
-                                    "\tCreate request program: (id:" + requestProgram.requestProgramID + ")",
-                                );
-                            }
-                        }
-                    }
-
                     if (!(await this.passportService.isCreate(passport.id))) {
                         // Паспорта не существует
                         this.logger.log("\tCreate passport: (id:" + passport.id + ")");
@@ -342,6 +329,21 @@ export class PartnerService {
                             currentPassport.id,
                             PassportMappers.toUpdateDto(currentPassport),
                         );
+                    }
+
+                    for (let program of currentPassport.programs) {
+                        if (!(await this.passportProgramService.isCreate(currentPassport.id, program.program.id))) {
+                            // Программы для паспорта не существует
+                            if (await this.programService.isCreate(program.program.id)) {
+                                const passportProgram = await this.passportProgramService.create({
+                                    passportId: currentPassport.id,
+                                    programId: program.program.id,
+                                });
+                                this.logger.log(
+                                    "\tCreate passport program: (id:" + passportProgram.passportProgramID + ")",
+                                );
+                            }
+                        }
                     }
                 }
             } catch (error) {
@@ -760,6 +762,210 @@ export class PartnerService {
         });
 
         XLSX.utils.book_append_sheet(workbook, passportsSheet, "Паспорта");
+        const bookId = uuidv4();
+        JS_XLSX.writeFile(workbook, `static/${bookId}.xlsx`);
+        console.log("End of create report");
+        return { reportFile: `${bookId}.xlsx` };
+    }
+
+    async createRequestConflictReport(dto: CreateRequestReportDto) {
+        let requests = await this.requestService.findConflicts({
+            period_id: dto.periodId,
+            programs: [],
+        });
+
+        let workbook = XLSX.utils.book_new();
+
+        let requestsWithMixedSheet = {
+            "!ref": "A1:K" + (requests.requestsWithMixed.length + 1),
+            A1: {
+                t: "s",
+                v: "Номер заявки",
+            },
+            B1: {
+                t: "s",
+                v: "Название",
+            },
+            C1: {
+                t: "s",
+                v: "Описание",
+            },
+            D1: {
+                t: "s",
+                v: "Цель",
+            },
+            E1: {
+                t: "s",
+                v: "Критерии",
+            },
+            F1: {
+                t: "s",
+                v: "Статус",
+            },
+            G1: {
+                t: "s",
+                v: "Заказчик",
+            },
+            H1: {
+                t: "s",
+                v: "Представитель заказчика",
+            },
+            I1: {
+                t: "s",
+                v: "Количество паспортов",
+            },
+            J1: {
+                t: "s",
+                v: "Ссылка",
+            },
+            K1: {
+                t: "s",
+                v: "Программы",
+            },
+        };
+
+        requests.requestsWithMixed.forEach((request, index) => {
+            requestsWithMixedSheet["A" + (index + 2)] = { t: "s", v: request.uid };
+            requestsWithMixedSheet["B" + (index + 2)] = { t: "s", v: request.name };
+            requestsWithMixedSheet["C" + (index + 2)] = {
+                t: "s",
+                v: htmlToText(request.description),
+            };
+            requestsWithMixedSheet["D" + (index + 2)] = {
+                t: "s",
+                v: htmlToText(request.goal),
+            };
+            requestsWithMixedSheet["E" + (index + 2)] = {
+                t: "s",
+                v: htmlToText(request.criteria),
+            };
+            requestsWithMixedSheet["F" + (index + 2)] = {
+                t: "s",
+                v: htmlToText(request.status),
+            };
+            requestsWithMixedSheet["G" + (index + 2)] = {
+                t: "s",
+                v: htmlToText(request.customer_user.customer_company.name),
+            };
+            requestsWithMixedSheet["H" + (index + 2)] = {
+                t: "s",
+                v:
+                    (request.customer_user.last_name || "") +
+                    " " +
+                    (request.customer_user.first_name || "") +
+                    " " +
+                    (request.customer_user.middle_name || ""),
+            };
+            requestsWithMixedSheet["I" + (index + 2)] = {
+                t: "s",
+                v: request.passports.length,
+            };
+            requestsWithMixedSheet["J" + (index + 2)] = {
+                t: "s",
+                v: "https://partner.urfu.ru/ptraining/services/learning/#/requests/" + request.id,
+            };
+            requestsWithMixedSheet["K" + (index + 2)] = {
+                t: "s",
+                v: request.programs.map((p) => `${p.program.uid} ${p.program.name}`).join("\n"),
+            };
+        });
+
+        let requestsWithoutShesterov = {
+            "!ref": "A1:K" + (requests.requestsWithoutShesterov.length + 1),
+            A1: {
+                t: "s",
+                v: "Номер заявки",
+            },
+            B1: {
+                t: "s",
+                v: "Название",
+            },
+            C1: {
+                t: "s",
+                v: "Описание",
+            },
+            D1: {
+                t: "s",
+                v: "Цель",
+            },
+            E1: {
+                t: "s",
+                v: "Критерии",
+            },
+            F1: {
+                t: "s",
+                v: "Статус",
+            },
+            G1: {
+                t: "s",
+                v: "Заказчик",
+            },
+            H1: {
+                t: "s",
+                v: "Представитель заказчика",
+            },
+            I1: {
+                t: "s",
+                v: "Количество паспортов",
+            },
+            J1: {
+                t: "s",
+                v: "Ссылка",
+            },
+            K1: {
+                t: "s",
+                v: "Программы",
+            },
+        };
+
+        requests.requestsWithoutShesterov.forEach((request, index) => {
+            requestsWithoutShesterov["A" + (index + 2)] = { t: "s", v: request.uid };
+            requestsWithoutShesterov["B" + (index + 2)] = { t: "s", v: request.name };
+            requestsWithoutShesterov["C" + (index + 2)] = {
+                t: "s",
+                v: htmlToText(request.description),
+            };
+            requestsWithoutShesterov["D" + (index + 2)] = {
+                t: "s",
+                v: htmlToText(request.goal),
+            };
+            requestsWithoutShesterov["E" + (index + 2)] = {
+                t: "s",
+                v: htmlToText(request.criteria),
+            };
+            requestsWithoutShesterov["F" + (index + 2)] = {
+                t: "s",
+                v: htmlToText(request.status),
+            };
+            requestsWithoutShesterov["G" + (index + 2)] = {
+                t: "s",
+                v: htmlToText(request.customer_user.customer_company.name),
+            };
+            requestsWithoutShesterov["H" + (index + 2)] = {
+                t: "s",
+                v:
+                    (request.customer_user.last_name || "") +
+                    " " +
+                    (request.customer_user.first_name || "") +
+                    " " +
+                    (request.customer_user.middle_name || ""),
+            };
+            requestsWithoutShesterov["I" + (index + 2)] = {
+                t: "s",
+                v: request.passports.length,
+            };
+            requestsWithoutShesterov["J" + (index + 2)] = {
+                t: "s",
+                v: "https://partner.urfu.ru/ptraining/services/learning/#/requests/" + request.id,
+            };
+            requestsWithoutShesterov["K" + (index + 2)] = {
+                t: "s",
+                v: request.programs.map((p) => `${p.program.uid} ${p.program.name}`).join("\n"),
+            };
+        });
+
+        XLSX.utils.book_append_sheet(workbook, requestsWithMixedSheet, "Есть целевые и другие");
+        XLSX.utils.book_append_sheet(workbook, requestsWithoutShesterov, "Есть только другие");
         const bookId = uuidv4();
         JS_XLSX.writeFile(workbook, `static/${bookId}.xlsx`);
         console.log("End of create report");
