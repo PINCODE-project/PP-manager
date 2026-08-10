@@ -4,6 +4,7 @@ import { CreateStudentDto } from "./dto/create-student.dto";
 import { UpdateStudentDto } from "./dto/update-student.dto";
 import { ApiTags } from "@nestjs/swagger";
 import { DeleteFromOldProjectDto } from "./dto/delete-from-old-project.dto";
+import { CreateStudentReportDto } from "./dto/create-student-report.dto";
 
 @ApiTags("student")
 @Controller("student")
@@ -33,5 +34,10 @@ export class StudentController {
     @Delete(":id")
     remove(@Param("id", ParseIntPipe) id: number) {
         return this.studentService.remove(id);
+    }
+
+    @Post("report")
+    createReport(@Body() createStudentReportDto: CreateStudentReportDto) {
+        return this.studentService.createStudentReport(createStudentReportDto);
     }
 }

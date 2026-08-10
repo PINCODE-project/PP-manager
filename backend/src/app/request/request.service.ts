@@ -121,56 +121,45 @@ export class RequestService {
 
         const shesterovIds = [20, 24, 26];
 
-        const requestsWithoutShesterov: typeof requests = [];
-        const requestsWithMixed: typeof requests = [];
+        const group1100: typeof requests = [];
+        const group1101: typeof requests = [];
+        const group1110: typeof requests = [];
+        const group1111: typeof requests = [];
 
         for (const request of requests) {
-            let pushToWithout = false;
-            let pushToMixed = false;
+            const hasRS = request.programs.some((p) => shesterovIds.includes(p.program.id));
+            const hasRD = request.programs.some((p) => !shesterovIds.includes(p.program.id));
 
-            const newPassports = request.passports
-                .map((passport) => {
-                    const programs = passport.programs;
+            let hasPS = false;
+            let hasPD = false;
 
-                    const hasShesterov = programs.some((p) => shesterovIds.includes(p.program.id));
-                    const hasOther = programs.some((p) => !shesterovIds.includes(p.program.id));
-
-                    if (hasOther && !hasShesterov) {
-                        // только НЕ шестерова → попадёт в "without"
-                        pushToWithout = true;
-                        return {
-                            ...passport,
-                            programs: programs.filter((p) => !shesterovIds.includes(p.program.id)),
-                        };
-                    }
-
-                    if (hasShesterov && hasOther) {
-                        // смешанные → попадут в "mixed"
-                        pushToMixed = true;
-                        return { ...passport, programs };
-                    }
-
-                    // если только шестерова → не добавляем в оба массива
-                    return null;
-                })
-                .filter(Boolean);
-
-            if (pushToWithout) {
-                requestsWithoutShesterov.push({
-                    ...request,
-                    passports: newPassports,
-                });
+            for (const passport of request.passports) {
+                const ps = passport.programs.some((p) => shesterovIds.includes(p.program.id));
+                const pd = passport.programs.some((p) => !shesterovIds.includes(p.program.id));
+                if (ps) hasPS = true;
+                if (pd) hasPD = true;
             }
 
-            if (pushToMixed) {
-                requestsWithMixed.push({
-                    ...request,
-                    passports: newPassports,
-                });
+            // Нам нужны только заявки, где RS = 1 и RD = 1
+            if (hasRS && hasRD) {
+                if (!hasPS && !hasPD) {
+                    group1100.push(request);
+                } else if (!hasPS && hasPD) {
+                    group1101.push(request);
+                } else if (hasPS && !hasPD) {
+                    group1110.push(request);
+                } else if (hasPS && hasPD) {
+                    group1111.push(request);
+                }
             }
         }
 
-        return { requestsWithoutShesterov, requestsWithMixed };
+        return {
+            group1100,
+            group1101,
+            group1110,
+            group1111,
+        };
     }
 
     async findAll(findAllRequestsDto: FindAllRequestsDto) {

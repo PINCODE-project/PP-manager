@@ -189,7 +189,10 @@ export class TeamprojectService {
             await this.projectService.create({
                 // @ts-ignore
                 passport: details.passportNumber,
-                project: parseProjectDto.project,
+                project: {
+                    ...parseProjectDto.project,
+                    title: `${parseProjectDto.project.title} (${parseProjectDto.project.instanceNumber})`,
+                },
                 period_id: period.id,
                 details,
                 team,
@@ -202,7 +205,10 @@ export class TeamprojectService {
             await this.projectService.update(parseProjectDto.id, {
                 // @ts-ignore
                 passport: details.passportNumber,
-                project: parseProjectDto.project,
+                project: {
+                    ...parseProjectDto.project,
+                    title: `${parseProjectDto.project.title} (${parseProjectDto.project.instanceNumber})`,
+                },
                 period_id: period.id,
                 details,
                 team,
